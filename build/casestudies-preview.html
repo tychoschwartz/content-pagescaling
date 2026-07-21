@@ -1,0 +1,137 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090b; --surface:#0f1216; --surface-2:#151920;
+  --hair:#22262e; --hair-soft:#171b21;
+  --ink:#eef2f7; --ink-soft:#8a97a6; --ink-dim:#5b6572;
+  --accent:#5cc6ff; --accent-dim:rgba(92,198,255,.14); --accent-glow:rgba(92,198,255,.45);
+  --live:#37d67a;
+  --display:'Fraunces',Georgia,serif; --body:'Inter',sans-serif; --mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#000;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+.slide{position:relative;width:1080px;height:1350px;overflow:hidden;background:var(--bg);color:var(--ink);
+  font-family:var(--body);display:flex;flex-direction:column;padding:88px 84px 80px;}
+.slide::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.5;
+  background:linear-gradient(rgba(92,198,255,.028) 1px,transparent 1px) 0 0/100% 90px,
+             linear-gradient(90deg,rgba(92,198,255,.028) 1px,transparent 1px) 0 0/90px 100%;
+  -webkit-mask-image:radial-gradient(circle at 50% -8%,#000,transparent 72%);mask-image:radial-gradient(circle at 50% -8%,#000,transparent 72%);}
+.slide::after{content:"";position:absolute;top:-24%;left:-14%;width:70%;height:120%;z-index:0;pointer-events:none;
+  background:radial-gradient(circle,rgba(92,198,255,.15),transparent 60%);filter:blur(60px);}
+.slide>*{position:relative;z-index:1;}
+.head{display:flex;align-items:center;justify-content:space-between;}
+.logo{font-family:var(--display);font-style:italic;font-weight:600;font-size:50px;letter-spacing:-.03em;line-height:1;color:var(--ink);}
+.logo .dot{display:inline-block;width:.17em;height:.17em;border-radius:50%;background:var(--accent);margin-left:.04em;}
+.ce{font-family:var(--mono);font-size:17px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);}
+.body{flex:1;display:flex;flex-direction:column;justify-content:center;}
+.ch{display:flex;align-items:center;gap:20px;font-family:var(--display);font-weight:400;font-size:58px;line-height:.98;letter-spacing:-.02em;}
+.clogo{width:66px;height:66px;border-radius:14px;object-fit:cover;flex:none;background:linear-gradient(145deg,#16161c,#070709);border:1px solid var(--hair);
+  display:flex;align-items:center;justify-content:center;font-family:var(--display);font-style:italic;color:var(--ink-dim);font-size:30px;}
+.niche{font-family:var(--mono);font-size:18px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-top:6px;}
+.csub{font-size:26px;line-height:1.4;color:var(--ink-soft);margin:22px 0 40px;max-width:34ch;}
+.csub b{color:var(--ink);font-weight:600;}
+.chero{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:40px;align-items:center;}
+.big{font-family:var(--display);font-weight:300;font-size:130px;line-height:.82;letter-spacing:-.03em;color:var(--ink);}
+.big span{color:var(--accent);font-weight:500;}
+.biglabel{font-family:var(--mono);font-size:19px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin-top:16px;}
+.biglabel .tf{color:var(--accent);}
+.chart-wrap{border:1px solid var(--hair);border-radius:16px;padding:20px;background:rgba(0,0,0,.25);}
+.chart{width:100%;height:auto;display:block;}
+.cnote{display:flex;justify-content:space-between;font-family:var(--mono);font-size:15px;color:var(--ink-soft);margin-top:12px;letter-spacing:.04em;}
+.crow{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:44px;padding-top:36px;border-top:1px solid var(--hair);}
+.crow .v{font-family:var(--display);font-size:44px;font-weight:400;letter-spacing:-.02em;font-variant-numeric:tabular-nums;}
+.crow .l{font-family:var(--mono);font-size:15px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-top:10px;}
+.foot{display:flex;align-items:center;justify-content:space-between;gap:18px;border-top:1px solid var(--hair);padding-top:28px;margin-top:44px;}
+.verify{font-family:var(--mono);font-size:18px;color:var(--ink-soft);display:inline-flex;align-items:center;gap:11px;}
+.verify::before{content:"";width:11px;height:11px;border-radius:50%;background:var(--live);box-shadow:0 0 0 5px rgba(55,214,122,.14);}
+.foot .handle{font-family:var(--mono);font-size:19px;letter-spacing:.08em;color:var(--ink-soft);}
+.foot .handle b{color:var(--ink);font-weight:500;}
+ .wrap{display:inline-block;}</style></head><body>
+<div class="wrap" data-file="moneyciety.png"><div class="slide">
+    <div class="head"><span class="logo">ps<span class="dot"></span></span><span class="ce">Case study · 01</span></div>
+    <div class="body">
+      <div class="ch"><span class="clogo">@</span><div><div>{{ @moneyciety }}</div><div class="niche">{{ niche }}</div></div></div>
+      <div class="csub">Handed over, then run on the engine. {{ one line: what changed }}</div>
+      <div class="chero">
+        <div>
+          <div class="big"><span>{{ +184K }}</span></div>
+          <div class="biglabel">followers · <span class="tf">{{ in 60 days }}</span></div>
+        </div>
+        <div class="chart-wrap">
+          <svg viewBox="0 0 820 300" class="chart" preserveAspectRatio="none">
+    <defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="rgba(92,198,255,.28)"/><stop offset="1" stop-color="rgba(92,198,255,0)"/>
+    </linearGradient></defs>
+    <line x1="8" y1="79.0" x2="812" y2="79.0" stroke="#22262e" stroke-width="1"/><line x1="8" y1="150.0" x2="812" y2="150.0" stroke="#22262e" stroke-width="1"/><line x1="8" y1="221.0" x2="812" y2="221.0" stroke="#22262e" stroke-width="1"/>
+    <path d="M8.0 263.6 L97.3 252.2 L186.7 235.2 L276.0 209.6 L365.3 178.4 L454.7 144.3 L544.0 104.6 L633.3 67.6 L722.7 30.7 L812.0 8.0 L 812.0 292 L 8.0 292 Z" fill="url(#ag)"/>
+    <path d="M8.0 263.6 L97.3 252.2 L186.7 235.2 L276.0 209.6 L365.3 178.4 L454.7 144.3 L544.0 104.6 L633.3 67.6 L722.7 30.7 L812.0 8.0" fill="none" stroke="#5cc6ff" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+    
+    <circle cx="812.0" cy="8.0" r="8" fill="#5cc6ff"/>
+    <circle cx="812.0" cy="8.0" r="15" fill="none" stroke="rgba(92,198,255,.4)" stroke-width="2"/>
+  </svg>
+          <div class="cnote"><span>follower growth</span><span>Social&nbsp;Blade</span></div>
+        </div>
+      </div>
+      <div class="crow"><div><div class="v">{{ 42K → 226K }}</div><div class="l">Start → now</div></div><div><div class="v">{{ +3.1K }}</div><div class="l">Avg / day</div></div><div><div class="v">{{ 60 days }}</div><div class="l">Timeframe</div></div></div>
+    </div>
+    <div class="foot"><span class="verify">Verified on Social Blade</span><span class="handle"><b>@pagescaling</b></span></div>
+  </div></div><div class="wrap" data-file="multimillionaire_mind.png"><div class="slide">
+    <div class="head"><span class="logo">ps<span class="dot"></span></span><span class="ce">Case study · 02</span></div>
+    <div class="body">
+      <div class="ch"><span class="clogo">@</span><div><div>{{ @multimillionaire_mind }}</div><div class="niche">{{ niche }}</div></div></div>
+      <div class="csub">Rode out an Instagram ban wave and climbed straight back. {{ context }}</div>
+      <div class="chero">
+        <div>
+          <div class="big"><span>{{ +xxxK }}</span></div>
+          <div class="biglabel">recovered & grown · <span class="tf">{{ post-ban wave }}</span></div>
+        </div>
+        <div class="chart-wrap">
+          <svg viewBox="0 0 820 300" class="chart" preserveAspectRatio="none">
+    <defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="rgba(92,198,255,.28)"/><stop offset="1" stop-color="rgba(92,198,255,0)"/>
+    </linearGradient></defs>
+    <line x1="8" y1="79.0" x2="812" y2="79.0" stroke="#22262e" stroke-width="1"/><line x1="8" y1="150.0" x2="812" y2="150.0" stroke="#22262e" stroke-width="1"/><line x1="8" y1="221.0" x2="812" y2="221.0" stroke="#22262e" stroke-width="1"/>
+    <path d="M8.0 135.8 L97.3 98.9 L186.7 59.1 L276.0 22.2 L365.3 172.7 L454.7 178.4 L544.0 150.0 L633.3 104.6 L722.7 53.4 L812.0 8.0 L 812.0 292 L 8.0 292 Z" fill="url(#ag)"/>
+    <path d="M8.0 135.8 L97.3 98.9 L186.7 59.1 L276.0 22.2 L365.3 172.7 L454.7 178.4 L544.0 150.0 L633.3 104.6 L722.7 53.4 L812.0 8.0" fill="none" stroke="#5cc6ff" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="454.7" cy="178.4" r="7" fill="#08090b" stroke="#37d67a" stroke-width="3"/>
+    <circle cx="812.0" cy="8.0" r="8" fill="#5cc6ff"/>
+    <circle cx="812.0" cy="8.0" r="15" fill="none" stroke="rgba(92,198,255,.4)" stroke-width="2"/>
+  </svg>
+          <div class="cnote"><span>peak → ban wave → recovery</span><span>Social&nbsp;Blade</span></div>
+        </div>
+      </div>
+      <div class="crow"><div><div class="v">{{ 1.2M }}</div><div class="l">Peak before</div></div><div><div class="v">{{ –180K }}</div><div class="l">Ban-wave dip</div></div><div><div class="v">{{ 1.3M }}</div><div class="l">Now</div></div></div>
+    </div>
+    <div class="foot"><span class="verify">Verified on Social Blade</span><span class="handle"><b>@pagescaling</b></span></div>
+  </div></div><div class="wrap" data-file="victorianpoetry.png"><div class="slide">
+    <div class="head"><span class="logo">ps<span class="dot"></span></span><span class="ce">Case study · 03</span></div>
+    <div class="body">
+      <div class="ch"><span class="clogo">@</span><div><div>{{ @victorianpoetry }}</div><div class="niche">{{ poetry / aesthetic }}</div></div></div>
+      <div class="csub">Full edit + posting engine. Growth from a standing start. {{ context }}</div>
+      <div class="chero">
+        <div>
+          <div class="big"><span>{{ +xxK }}</span></div>
+          <div class="biglabel">followers · <span class="tf">{{ in xx days }}</span></div>
+        </div>
+        <div class="chart-wrap">
+          <svg viewBox="0 0 820 300" class="chart" preserveAspectRatio="none">
+    <defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="rgba(92,198,255,.28)"/><stop offset="1" stop-color="rgba(92,198,255,0)"/>
+    </linearGradient></defs>
+    <line x1="8" y1="79.0" x2="812" y2="79.0" stroke="#22262e" stroke-width="1"/><line x1="8" y1="150.0" x2="812" y2="150.0" stroke="#22262e" stroke-width="1"/><line x1="8" y1="221.0" x2="812" y2="221.0" stroke="#22262e" stroke-width="1"/>
+    <path d="M8.0 275.0 L97.3 266.4 L186.7 255.1 L276.0 238.0 L365.3 215.3 L454.7 184.1 L544.0 147.2 L633.3 104.6 L722.7 56.3 L812.0 8.0 L 812.0 292 L 8.0 292 Z" fill="url(#ag)"/>
+    <path d="M8.0 275.0 L97.3 266.4 L186.7 255.1 L276.0 238.0 L365.3 215.3 L454.7 184.1 L544.0 147.2 L633.3 104.6 L722.7 56.3 L812.0 8.0" fill="none" stroke="#5cc6ff" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+    
+    <circle cx="812.0" cy="8.0" r="8" fill="#5cc6ff"/>
+    <circle cx="812.0" cy="8.0" r="15" fill="none" stroke="rgba(92,198,255,.4)" stroke-width="2"/>
+  </svg>
+          <div class="cnote"><span>follower growth</span><span>Social&nbsp;Blade</span></div>
+        </div>
+      </div>
+      <div class="crow"><div><div class="v">{{ x → xxK }}</div><div class="l">Start → now</div></div><div><div class="v">{{ +xxx }}</div><div class="l">Avg / day</div></div><div><div class="v">{{ xx days }}</div><div class="l">Timeframe</div></div></div>
+    </div>
+    <div class="foot"><span class="verify">Verified on Social Blade</span><span class="handle"><b>@pagescaling</b></span></div>
+  </div></div>
+</body></html>
