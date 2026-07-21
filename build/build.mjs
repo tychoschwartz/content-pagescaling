@@ -7,8 +7,6 @@ import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const OUT = path.join(ROOT, 'posts');
-const markB64 = fs.readFileSync(path.join(__dirname, 'assets', 'ps-mark.png')).toString('base64');
-const MARK = `data:image/png;base64,${markB64}`;
 
 const W = 1080, H = 1350;
 
@@ -57,10 +55,9 @@ body{background:#000;font-variant-ligatures:common-ligatures;-webkit-font-smooth
 
 /* header row: mark + wordmark */
 .head{display:flex;align-items:center;justify-content:space-between;}
-.brand{display:flex;align-items:center;gap:15px;}
-.brand img{height:40px;width:auto;display:block;}
-.brand .wm{font-family:var(--display);font-weight:600;font-size:29px;letter-spacing:-.015em;color:var(--ink);}
-.brand .wm b{color:var(--accent);font-weight:600;}
+.brand{display:flex;align-items:baseline;}
+.logo{font-family:var(--display);font-style:italic;font-weight:600;font-size:54px;letter-spacing:-.03em;line-height:1;color:var(--ink);}
+.logo .dot{display:inline-block;width:.17em;height:.17em;border-radius:50%;background:var(--accent);margin-left:.04em;vertical-align:baseline;}
 .pageno{font-family:var(--mono);font-size:20px;letter-spacing:.14em;color:var(--ink-soft);font-variant-numeric:tabular-nums;}
 .pageno i{color:var(--accent);font-style:normal;}
 
@@ -122,7 +119,7 @@ h1 b{font-weight:600;font-style:italic;}
 `;
 
 /* ---------- per-type markup ---------- */
-function brand(){ return `<div class="brand"><img src="${MARK}" alt=""><span class="wm">Page<b>scaling</b></span></div>`; }
+function brand(){ return `<div class="brand"><span class="logo">ps<span class="dot"></span></span></div>`; }
 function pageno(i,n){ return n>1 ? `<span class="pageno"><i>${String(i+1).padStart(2,'0')}</i> / ${String(n).padStart(2,'0')}</span>` : `<span class="pageno">@pagescaling</span>`; }
 function footBar(){ return `<div class="foot"><span class="handle"><b>@pagescaling</b></span><span class="tag">The faceless content engine</span></div>`; }
 
