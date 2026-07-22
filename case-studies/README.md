@@ -12,17 +12,20 @@ Re-render after editing: `node build/casestudies.mjs`.
 
 ---
 
-## 01 — @victorianpoetry · +442K / 30 days
+## 01 — @victorianpoetry · Editor spotlight · +442K / 30 days
 `victorianpoetry.png`
 
+> Honesty note: this is NOT a managed client. Tycho is the **editor** on this
+> page. It's framed as an "editor spotlight" — proof of an eye for what grows,
+> not a done-for-you result. Keep that distinction in the caption.
+
 **Caption:**
-+442,701 followers in 30 days. 📈
-We took over @victorianpoetry and handed back a growth curve that's *still*
-bending up — 1.87M and climbing, roughly +14.8K a day, with a best day of
-+24.9K. All of it public and verifiable on Social Blade (as of 22 Jul 2026).
-This is what a page looks like when the engine is actually running.
+Full transparency: I don't manage @victorianpoetry — I'm the editor on it. 📈
+But +442,701 followers in 30 days (1.87M and still climbing, ~+14.8K a day,
+best day +24.9K — all public on Social Blade, 22 Jul 2026) is exactly the kind
+of growth I have an eye for. Same eye I bring to the pages I *do* run.
 👉 Free teardown in bio.
-#pagemanagement #instagramgrowth #facelesscontent
+#facelesscontent #instagramgrowth #contenteditor
 
 ## 02 — @moneyciety · +11K / 14 days
 `moneyciety.png`

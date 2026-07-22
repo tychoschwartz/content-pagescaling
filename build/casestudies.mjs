@@ -18,6 +18,8 @@ function logoData(file){
 }
 function clogo(c){ return c.logo ? `<img class="clogo" src="${logoData(c.logo)}" alt="">` : `<span class="clogo">@</span>`; }
 function verifyLine(c){ return `<span class="verify">${c.verify} · as of ${DATE}</span>`; }
+function label(c){ return c.label || 'Case study'; }
+function roleTag(c){ return c.roleTag ? `<div class="roletag">${c.roleTag}</div>` : ''; }
 
 /* ---------------------------------------------------------------------------
    CASE DATA — fill the {{ }} tokens with REAL Social Blade numbers.
@@ -29,9 +31,11 @@ export const cases = [
     n: '01',
     slug: 'victorianpoetry',
     logo: 'victorianpoetry.webp',
+    label: 'Editor spotlight',
+    roleTag: 'I’m the editor here — not a managed page',
     handle: '@victorianpoetry',
     niche: 'poetry · fine art',
-    sub: 'A standing engine. <b>+442K followers in 30 days</b> — and the curve is still bending up.',
+    sub: 'Full transparency: I edit this page, I don’t manage it. But <b>+442K followers in 30 days</b> is exactly the kind of growth I have an eye for.',
     headline: '+442K',
     headlineLabel: 'followers',
     timeframe: 'in 30 days',
@@ -163,9 +167,9 @@ function viewsChart(curve){
 function renderReach(c){
   const metrics = c.metrics.map(m=>`<div><div class="v">${m.v}</div><div class="l">${m.l}</div></div>`).join('');
   return `<div class="slide">
-    <div class="head">${brand()}<span class="ce">Case study · ${c.n}</span></div>
+    <div class="head">${brand()}<span class="ce">${label(c)}</span></div>
     <div class="body">
-      <div class="ch">${clogo(c)}<div><div>${c.handle}</div><div class="niche">${c.niche}</div></div></div>
+      <div class="ch">${clogo(c)}<div><div>${c.handle}</div><div class="niche">${c.niche}</div>${roleTag(c)}</div></div>
       <div class="csub">${c.sub}</div>
       <div class="chero">
         <div>
@@ -190,7 +194,7 @@ function renderLeaderboard(c){
     <span class="lbv">${p.v}</span>
   </div>`).join('');
   return `<div class="slide">
-    <div class="head">${brand()}<span class="ce">Case study · ${c.n} · top posts</span></div>
+    <div class="head">${brand()}<span class="ce">${label(c)} · top posts</span></div>
     <div class="body">
       <div class="ch">${clogo(c)}<div><div>${c.handle}</div><div class="niche">Biggest reels · views</div></div></div>
       <div class="csub" style="margin-bottom:30px;">The hits that drove the month. Every one <b>past 1.8M views.</b></div>
@@ -229,6 +233,10 @@ body{background:#000;-webkit-font-smoothing:antialiased;text-rendering:optimizeL
 .clogo{width:66px;height:66px;border-radius:14px;object-fit:cover;flex:none;background:linear-gradient(145deg,#16161c,#070709);border:1px solid var(--hair);
   display:flex;align-items:center;justify-content:center;font-family:var(--display);font-style:italic;color:var(--ink-dim);font-size:30px;}
 .niche{font-family:var(--mono);font-size:18px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-top:6px;}
+.roletag{display:inline-flex;align-items:center;gap:10px;margin-top:12px;font-family:var(--mono);font-size:16px;
+  letter-spacing:.06em;color:var(--accent);border:1px solid var(--accent-dim);background:var(--accent-dim);
+  border-radius:999px;padding:7px 16px;}
+.roletag::before{content:"✎";font-size:15px;}
 .csub{font-size:26px;line-height:1.4;color:var(--ink-soft);margin:22px 0 40px;max-width:34ch;}
 .csub b{color:var(--ink);font-weight:600;}
 .chero{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:40px;align-items:center;}
@@ -264,9 +272,9 @@ function brand(){ return `<span class="logo">ps<span class="dot"></span></span>`
 function render(c){
   const metrics = c.metrics.map(m=>`<div><div class="v">${m.v}</div><div class="l">${m.l}</div></div>`).join('');
   return `<div class="slide">
-    <div class="head">${brand()}<span class="ce">Case study · ${c.n}</span></div>
+    <div class="head">${brand()}<span class="ce">${label(c)}</span></div>
     <div class="body">
-      <div class="ch">${clogo(c)}<div><div>${c.handle}</div><div class="niche">${c.niche}</div></div></div>
+      <div class="ch">${clogo(c)}<div><div>${c.handle}</div><div class="niche">${c.niche}</div>${roleTag(c)}</div></div>
       <div class="csub">${c.sub}</div>
       <div class="chero">
         <div>
