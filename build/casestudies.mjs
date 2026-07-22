@@ -8,6 +8,17 @@ const ROOT = path.resolve(__dirname, '..');
 const OUT = path.join(ROOT, 'case-studies');
 const W = 1080, H = 1350;
 
+// date the numbers were pulled — shown so the stats read as a point-in-time snapshot
+const DATE = '22 Jul 2026';
+function logoData(file){
+  const b = fs.readFileSync(path.join(__dirname, 'assets', 'logos', file)).toString('base64');
+  const ext = file.split('.').pop().toLowerCase();
+  const mime = ext === 'png' ? 'image/png' : ext === 'webp' ? 'image/webp' : 'image/jpeg';
+  return `data:${mime};base64,${b}`;
+}
+function clogo(c){ return c.logo ? `<img class="clogo" src="${logoData(c.logo)}" alt="">` : `<span class="clogo">@</span>`; }
+function verifyLine(c){ return `<span class="verify">${c.verify} · as of ${DATE}</span>`; }
+
 /* ---------------------------------------------------------------------------
    CASE DATA — fill the {{ }} tokens with REAL Social Blade numbers.
    `curve` = follower trajectory as y-values 0..1 (left→right over time).
@@ -17,6 +28,7 @@ export const cases = [
   {
     n: '01',
     slug: 'victorianpoetry',
+    logo: 'victorianpoetry.webp',
     handle: '@victorianpoetry',
     niche: 'poetry · fine art',
     sub: 'A standing engine. <b>+442K followers in 30 days</b> — and the curve is still bending up.',
@@ -34,6 +46,7 @@ export const cases = [
   {
     n: '02',
     slug: 'moneyciety',
+    logo: 'moneyciety.png',
     handle: '@moneyciety',
     niche: 'business · motivation · discipline',
     sub: 'Back on the climb — <b>+11K followers in the last 14 days.</b>',
@@ -51,6 +64,7 @@ export const cases = [
   {
     n: '03',
     slug: 'multimillionaire_mind',
+    logo: 'multimillionaire_mind.jpg',
     handle: '@multimillionaire_mind',
     niche: 'motivation · success · money',
     sub: '390K and accelerating — its <b>steepest follower spike is the most recent one.</b>',
@@ -68,6 +82,7 @@ export const cases = [
   {
     n: '04',
     slug: 'causewerefemales',
+    logo: 'causewerefemales.jpg',
     variant: 'reach',
     handle: '@causewerefemales',
     niche: 'faceless · pop culture',   // adjust if the niche label is off
@@ -150,7 +165,7 @@ function renderReach(c){
   return `<div class="slide">
     <div class="head">${brand()}<span class="ce">Case study · ${c.n}</span></div>
     <div class="body">
-      <div class="ch"><span class="clogo">@</span><div><div>${c.handle}</div><div class="niche">${c.niche}</div></div></div>
+      <div class="ch">${clogo(c)}<div><div>${c.handle}</div><div class="niche">${c.niche}</div></div></div>
       <div class="csub">${c.sub}</div>
       <div class="chero">
         <div>
@@ -164,7 +179,7 @@ function renderReach(c){
       </div>
       <div class="crow">${metrics}</div>
     </div>
-    <div class="foot"><span class="verify">${c.verify}</span><span class="handle"><b>@pagescaling</b></span></div>
+    <div class="foot">${verifyLine(c)}<span class="handle"><b>@pagescaling</b></span></div>
   </div>`;
 }
 
@@ -177,11 +192,11 @@ function renderLeaderboard(c){
   return `<div class="slide">
     <div class="head">${brand()}<span class="ce">Case study · ${c.n} · top posts</span></div>
     <div class="body">
-      <div class="ch"><span class="clogo">@</span><div><div>${c.handle}</div><div class="niche">Biggest reels · views</div></div></div>
+      <div class="ch">${clogo(c)}<div><div>${c.handle}</div><div class="niche">Biggest reels · views</div></div></div>
       <div class="csub" style="margin-bottom:30px;">The hits that drove the month. Every one <b>past 1.8M views.</b></div>
       <div class="lb">${rows}</div>
     </div>
-    <div class="foot"><span class="verify">${c.verify}</span><span class="handle"><b>@pagescaling</b></span></div>
+    <div class="foot">${verifyLine(c)}<span class="handle"><b>@pagescaling</b></span></div>
   </div>`;
 }
 
@@ -251,7 +266,7 @@ function render(c){
   return `<div class="slide">
     <div class="head">${brand()}<span class="ce">Case study · ${c.n}</span></div>
     <div class="body">
-      <div class="ch"><span class="clogo">@</span><div><div>${c.handle}</div><div class="niche">${c.niche}</div></div></div>
+      <div class="ch">${clogo(c)}<div><div>${c.handle}</div><div class="niche">${c.niche}</div></div></div>
       <div class="csub">${c.sub}</div>
       <div class="chero">
         <div>
@@ -265,7 +280,7 @@ function render(c){
       </div>
       <div class="crow">${metrics}</div>
     </div>
-    <div class="foot"><span class="verify">${c.verify}</span><span class="handle"><b>@pagescaling</b></span></div>
+    <div class="foot">${verifyLine(c)}<span class="handle"><b>@pagescaling</b></span></div>
   </div>`;
 }
 
