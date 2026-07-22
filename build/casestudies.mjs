@@ -66,6 +66,33 @@ export const cases = [
     curve: [0.06, 0.09, 0.13, 0.19, 0.27, 0.38, 0.51, 0.66, 0.83, 1.0],
     verify: 'Verified on Social Blade',
   },
+  {
+    n: '04',
+    slug: 'causewerefemales',
+    variant: 'reach',
+    handle: '@causewerefemales',
+    niche: 'faceless · pop culture',   // adjust if the niche label is off
+    sub: 'A discovery engine. <b>29M views in 30 days</b> — three quarters of it reaching people who don’t follow yet.',
+    headline: '29M',
+    headlineLabel: 'views',
+    timeframe: 'last 30 days',
+    metrics: [
+      { v: '10.3M', l: 'Accounts reached' },
+      { v: '75%',   l: 'Non-follower reach' },
+      { v: '2.8M',  l: 'Top post · 30d' },
+    ],
+    // daily views (normalised to the ~2.1M peak) — spiky, hit-driven
+    viewsCurve: [1.0,0.36,0.86,0.52,0.80,0.50,0.33,0.24,0.28,0.24,0.28,0.24,0.95,0.42,0.28,0.30,0.62,0.30,0.34,0.40],
+    topPosts: [
+      { t: '“😭😭”',                     v: '3.7M' },
+      { t: '“Fortnite’s growing list…”',  v: '2.8M' },
+      { t: '“Before becoming famous…”',   v: '2.5M' },
+      { t: '“In the early 2000s…”',       v: '2.2M' },
+      { t: '“One of the most viral…”',    v: '1.9M' },
+      { t: '“Even small history…”',       v: '1.8M' },
+    ],
+    verify: 'Instagram Insights',
+  },
 ];
 
 /* build an SVG line+area chart from a 0..1 curve */
@@ -95,6 +122,68 @@ function chart(curve, banwave){
     <circle cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="8" fill="#5cc6ff"/>
     <circle cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="15" fill="none" stroke="rgba(92,198,255,.4)" stroke-width="2"/>
   </svg>`;
+}
+
+/* spiky daily-views chart (bars) for the reach variant */
+function viewsChart(curve){
+  const w = 820, h = 300, pad = 8;
+  const n = curve.length;
+  const bw = (w - 2*pad) / n * 0.62;
+  const gap = (w - 2*pad) / n;
+  const grid = [0.5,1.0].map(g=>`<line x1="${pad}" y1="${(pad+g*(h-2*pad)).toFixed(1)}" x2="${w-pad}" y2="${(pad+g*(h-2*pad)).toFixed(1)}" stroke="#22262e" stroke-width="1"/>`).join('');
+  const bars = curve.map((y,i)=>{
+    const x = pad + i*gap + (gap-bw)/2;
+    const bh = Math.max(4, y*(h-2*pad));
+    const top = h - pad - bh;
+    const peak = y > 0.9;
+    return `<rect x="${x.toFixed(1)}" y="${top.toFixed(1)}" width="${bw.toFixed(1)}" height="${bh.toFixed(1)}" rx="3" fill="${peak?'#5cc6ff':'url(#bg2)'}"/>`;
+  }).join('');
+  return `<svg viewBox="0 0 ${w} ${h}" class="chart" preserveAspectRatio="none">
+    <defs><linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="rgba(92,198,255,.75)"/><stop offset="1" stop-color="rgba(92,198,255,.25)"/>
+    </linearGradient></defs>
+    ${grid}${bars}
+  </svg>`;
+}
+
+function renderReach(c){
+  const metrics = c.metrics.map(m=>`<div><div class="v">${m.v}</div><div class="l">${m.l}</div></div>`).join('');
+  return `<div class="slide">
+    <div class="head">${brand()}<span class="ce">Case study · ${c.n}</span></div>
+    <div class="body">
+      <div class="ch"><span class="clogo">@</span><div><div>${c.handle}</div><div class="niche">${c.niche}</div></div></div>
+      <div class="csub">${c.sub}</div>
+      <div class="chero">
+        <div>
+          <div class="big"><span>${c.headline}</span></div>
+          <div class="biglabel">${c.headlineLabel} · <span class="tf">${c.timeframe}</span></div>
+        </div>
+        <div class="chart-wrap">
+          ${viewsChart(c.viewsCurve)}
+          <div class="cnote"><span>daily views · 30 days</span><span>peak 2.1M/day</span></div>
+        </div>
+      </div>
+      <div class="crow">${metrics}</div>
+    </div>
+    <div class="foot"><span class="verify">${c.verify}</span><span class="handle"><b>@pagescaling</b></span></div>
+  </div>`;
+}
+
+function renderLeaderboard(c){
+  const rows = c.topPosts.map((p,i)=>`<div class="lbrow">
+    <span class="lbn">${String(i+1).padStart(2,'0')}</span>
+    <span class="lbt">${p.t}</span>
+    <span class="lbv">${p.v}</span>
+  </div>`).join('');
+  return `<div class="slide">
+    <div class="head">${brand()}<span class="ce">Case study · ${c.n} · top posts</span></div>
+    <div class="body">
+      <div class="ch"><span class="clogo">@</span><div><div>${c.handle}</div><div class="niche">Biggest reels · views</div></div></div>
+      <div class="csub" style="margin-bottom:30px;">The hits that drove the month. Every one <b>past 1.8M views.</b></div>
+      <div class="lb">${rows}</div>
+    </div>
+    <div class="foot"><span class="verify">${c.verify}</span><span class="handle"><b>@pagescaling</b></span></div>
+  </div>`;
 }
 
 const CSS = `
@@ -144,6 +233,16 @@ body{background:#000;-webkit-font-smoothing:antialiased;text-rendering:optimizeL
 .verify::before{content:"";width:11px;height:11px;border-radius:50%;background:var(--live);box-shadow:0 0 0 5px rgba(55,214,122,.14);}
 .foot .handle{font-family:var(--mono);font-size:19px;letter-spacing:.08em;color:var(--ink-soft);}
 .foot .handle b{color:var(--ink);font-weight:500;}
+/* leaderboard */
+.lb{display:flex;flex-direction:column;}
+.lbrow{display:grid;grid-template-columns:auto 1fr auto;align-items:baseline;gap:24px;
+  padding:26px 0;border-top:1px solid var(--hair);}
+.lbrow:last-child{border-bottom:1px solid var(--hair);}
+.lbn{font-family:var(--mono);font-size:20px;color:var(--accent);letter-spacing:.08em;}
+.lbt{font-family:var(--display);font-weight:400;font-size:38px;letter-spacing:-.015em;color:var(--ink);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.lbv{font-family:var(--display);font-weight:400;font-size:44px;letter-spacing:-.02em;color:var(--accent);
+  font-variant-numeric:tabular-nums;}
 `;
 
 function brand(){ return `<span class="logo">ps<span class="dot"></span></span>`; }
@@ -171,11 +270,22 @@ function render(c){
   </div>`;
 }
 
+// flatten cases into individual slide files
+const renderList = [];
+for (const c of cases){
+  if (c.variant === 'reach'){
+    renderList.push({ file: `${c.slug}.png`,           markup: renderReach(c) });
+    renderList.push({ file: `${c.slug}-top-posts.png`, markup: renderLeaderboard(c) });
+  } else {
+    renderList.push({ file: `${c.slug}.png`, markup: render(c) });
+  }
+}
+
 const html = `<!doctype html><html><head><meta charset="utf-8">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>${CSS} .wrap{display:inline-block;}</style></head><body>
-${cases.map(c=>`<div class="wrap" data-file="${c.slug}.png">${render(c)}</div>`).join('')}
+${renderList.map(r=>`<div class="wrap" data-file="${r.file}">${r.markup}</div>`).join('')}
 </body></html>`;
 
 fs.mkdirSync(OUT, { recursive: true });
@@ -186,10 +296,10 @@ const page = await browser.newPage({ viewport: { width: W, height: H }, deviceSc
 await page.setContent(html, { waitUntil: 'networkidle' });
 await page.evaluate(() => document.fonts.ready);
 await page.waitForTimeout(500);
-for (const c of cases){
-  const el = await page.$(`.wrap[data-file="${c.slug}.png"] .slide`);
-  await el.screenshot({ path: path.join(OUT, `${c.slug}.png`) });
-  console.log('✓ case-studies/' + c.slug + '.png');
+for (const r of renderList){
+  const el = await page.$(`.wrap[data-file="${r.file}"] .slide`);
+  await el.screenshot({ path: path.join(OUT, r.file) });
+  console.log('✓ case-studies/' + r.file);
 }
 await browser.close();
 console.log('Done.');
