@@ -1,6 +1,12 @@
-Handle,Niche,Followers,SB trend,Stage,Last touch,Next action,Next action date,Reply,Notes
-@example_page,motivation,120K,flat,DM1 sent,2026-07-22,Send DM2 if no reply,2026-07-24,No,Opener A - quiet 9 days after viral reel
-@your_first_reply,,,,Replied,2026-07-22,Send teardown,2026-07-22,Yes,First reply of the batch - warm - send short teardown today
-,,,,New,,DM1,,,
-,,,,New,,DM1,,,
-,,,,New,,DM1,,,
+Priority,Handle,Niche,Followers,30d trend,Engagement,Archetype / angle,Stage,Next action,Reply,Notes
+HIGH,@onlinentrepreneurs,business/entrepreneurship,345K,-412,0.15%,6 - plateaued despite heavy output (verified),New,DM1,,Verified · 147 posts/30d · best lead - committed but stalled - strategy layer
+HIGH,@theelevateunity,anime/motivation,162K,-1.1K,1.76%,7 - great content weak distribution,New,DM1,,Best engagement of batch · elite anime edits · compliment craft NEVER critique · qualify hand-off
+HIGH,@explaining.tech,tech/science,360K,+659,0.43%,1 - growing but format-limited (verified),New,DM1,,Verified · GROWING · 25 avg comments · reels lever not aesthetics
+HIGH,@powerofdiscipline_,discipline/motivation/nutrition,555K,+36K,0.32%,1 - growing but inconsistent content,New,DM1,,Growing well · grid all over the place · engagement 3x lower than multi · teardown ready
+MEDIUM,@howtobeentrepreneur,business/entrepreneur,600K,-3.7K,0.04%,2 - dormant asset (verified),New,DM1,,Not posting since March · big asset decaying · easy pickup pitch
+MEDIUM,@eliteswealthh,life/money/motivation,589K,-3.4K,0.14%,2 - dormant / inconsistent,New,DM1,,Only 4 posts/30d · big asset bleeding · same-niche as multi
+MEDIUM,@entrepreneurs_lives,business/entrepreneurship,281K,-1.2K,0.01%,3 - posting but not landing,New,DM1,,~19 likes · all text-on-black reels · effort with no return
+MEDIUM,@thedeepconnections,relatable/emotional,571K,-3.3K,0.23%,6 - format fatigue / turnaround,New,DM1,,7453 posts · committed but declining · turnaround job not quick win
+LOW,@intrepreneurs,business/entrepreneur,315K,-1.3K,0.04%,2+4 - dormant + ghost audience,New,DM1,,0 posts/30d + 112 likes · rebuild not restart · manage expectations
+LOW,@bizziology,business,258K,declining,0.04%,4 - ghost / dead audience,New,Qualify first,,20-30 likes on 258K · likely bought/dead · lowest priority - qualify before pitching
+LOW,@techadvicepage,tech/AI/business,128K,-169,0.01%,4 - ghost audience (verified trap),New,Skip / qualify,,15 likes on 128K despite 98 posts/30d · verified but dead audience · content is NOT the lever - dont be seduced by the badge
