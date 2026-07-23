@@ -1,0 +1,83 @@
+# @pagescaling — Opener Bank (by prospect archetype)
+
+Real openers, sorted by the *situation* you find on Social Blade. Match the
+prospect to the archetype, personalise the specifics, send. All English.
+
+**Golden rule for every one:** lead with a specific, true observation (prove you
+looked), be honest but never insulting, close with a light yes/no question. Keep
+proof accurate — pages you *manage* (@multimillionaire_mind, @moneyciety,
+@causewerefemales) vs the page you *edit* (@victorianpoetry).
+
+---
+
+## 1. Growing but visually inconsistent
+*Signal: real growth + low engagement + all-over-the-place grid.*
+*Example: @powerofdiscipline_ (555K, +36K/30d, 0.32% eng).*
+Proof to send: `multimillionaire_mind.png` (same-niche, ~3x their engagement).
+
+> Yo — respect, [555K] and [+36K] in 30 days is no accident. But honestly you're
+> growing *despite* the content, not because of it — the grid's [5] different
+> visual identities fighting each other, which is why engagement's stuck at
+> [0.32%]. I run @multimillionaire_mind (same niche, 390K) at ~3x that, purely
+> from a consistent look. Want me to mock up what a locked-in week looks like on
+> your page? 👀
+
+## 2. Dormant asset (not posting)
+*Signal: big following, gone quiet for weeks/months, slowly losing followers.*
+*Example: @howtobeentrepreneur (600K, 0 posts/30d since March, -3.7K/30d).*
+Proof to send: `multimillionaire_mind.png`.
+
+> Yo — noticed the page has been quiet since [March] and it's slowly bleeding
+> followers (down ~[3.7K] this month). You've got [600K] just sitting there
+> decaying — that's a serious asset going to waste. 👀 I do done-for-you page
+> management (daily posting, trending audio, the whole engine). Want me to bring
+> it back to life? I'll show you what the first week would look like.
+
+## 3. Posting but content isn't landing
+*Signal: posts consistently, but low-effort/repetitive format + tiny engagement + shrinking.*
+*Example: @entrepreneurs_lives (281K, ~19 likes, all text-on-black reels, -1.2K/30d).*
+Proof to send: `multimillionaire_mind.png`.
+
+> Yo — respect that you're actually posting consistently, most pages don't. But
+> real talk: [281K] followers and posts landing at ~[19] likes means the content
+> just isn't hitting. It's all the same [text-on-black reels] — nothing to make
+> someone stop, save, or share, and the page's slowly shrinking (-[1.2K] this
+> month). That's very fixable — stronger reels + carousels that actually stop the
+> scroll. I do done-for-you page management. Want me to show you what I'd change? 👀
+
+## 4. Ghost / dead audience (handle with care)
+*Signal: big follower count but catastrophic engagement (~0.04%, tiny likes). Often bought/inflated. LOW priority — qualify first.*
+*Example: @bizziology (258K, 0.04% eng, ~90 likes).*
+Proof to send: `causewerefemales.png` (reach/new-audience story).
+
+> Real talk on this one — you've got [258K] followers but posts are pulling
+> [20–30] likes. That's not a content problem, that's a dead audience. The
+> followers went inactive, so Instagram sees almost no signal and stops pushing
+> your posts. The play isn't posting more to the ghost count — it's rebuilding
+> *real* reach: reels built to land on new people who actually engage. I run a
+> page doing exactly that — 29M views in 30 days, 75% reaching non-followers.
+> Want me to show you what that'd look like on yours?
+
+## 5. Warm contact / partner (no pitch)
+*Signal: someone you already work with. Just tell them what you do + ask.*
+
+> Hey [name]! Hope you're doing well 🙌 Quick one — alongside what we already do
+> together, I've been running done-for-you Instagram page management (strategy,
+> daily posting, the whole engine) — got a portfolio of faceless pages growing
+> with public, tracked results. Do you have any accounts that could use page
+> management? Whether it's your own or someone you work with, happy to just run
+> it for you. No pressure at all! 🤝
+
+---
+
+## Follow-up (any archetype, if no reply)
+- **+2d:** deliver value unprompted — 2–3 specific things you'd change.
+- **+3d:** drop ONE proof snippet / case study + soft CTA.
+- **+5–7d:** the breakup — "all good if the timing's off, you know where I am."
+
+## After they reply
+Book/record the teardown (see `teardown-example-powerofdiscipline.md`): respect
+the real number → name the visible gap → tie it to a weak metric → prove with a
+same-niche managed page → soft close ("want me to run it?").
+
+*Numbers verified 22–23 Jul 2026. Refresh when the case studies update.*
