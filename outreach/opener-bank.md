@@ -72,6 +72,21 @@ Proof to send: `multimillionaire_mind.png` + name the causewerefemales 75% non-f
 > management with weekly tracking, so every post is a bet you actually learn
 > from. Want me to show you where I'd unlock the next leg of growth? 👀
 
+## 7. Great content, weak distribution (compliment the craft!)
+*Signal: genuinely good/aesthetic content + decent engagement, but flat/declining followers. Often a skilled editor. NEVER critique the content — that's their strength. Pitch the growth/distribution layer on top. Qualify: do they want to hand off, or keep control?*
+*Example: @theelevateunity (162K, 1.76% eng — best engagement seen — elite anime-motivation edits, but -1.1K/30d).*
+Proof to send: `causewerefemales.png` (75% non-follower reach = the new-audience proof).
+
+> Yo — real talk, your edits are some of the cleanest in the [anime-motivation]
+> space, genuinely elite. Which is why I was surprised the page is actually
+> losing followers (-[1.1K] this month) and growth stalled after that early
+> spike. So it's not a content problem — you've nailed the hard part. It's
+> distribution: great edits that aren't reaching enough new people, and not
+> posting consistently enough to compound. That's exactly the layer I run —
+> strategy, daily posting, trending audio — so your edits land in front of new
+> eyes. You keep doing what you're great at, I'll handle the growth engine. Want
+> me to show you where I'd unlock it? 👀
+
 ## 5. Warm contact / partner (no pitch)
 *Signal: someone you already work with. Just tell them what you do + ask.*
 
