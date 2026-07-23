@@ -58,6 +58,20 @@ Proof to send: `causewerefemales.png` (reach/new-audience story).
 > page doing exactly that — 29M views in 30 days, 75% reaching non-followers.
 > Want me to show you what that'd look like on yours?
 
+## 6. Plateaued despite heavy output (BEST kind of lead)
+*Signal: established/verified, posts a lot, real (not ghost) engagement, but growth has flatlined. Committed owner who just needs the strategy layer — easiest to convince because effort isn't the gap.*
+*Example: @onlinentrepreneurs (verified, 345K, 147 posts/30d, 0.15% eng, -412/30d).*
+Proof to send: `multimillionaire_mind.png` + name the causewerefemales 75% non-follower reach stat.
+
+> Yo — real respect, you're posting like a machine ([147] posts last month) on a
+> verified [345K] page. That's a serious operation. But here's what stood out:
+> all that output, and the growth's gone flat (-[412] this month). That's a
+> plateau — almost never an effort problem, it's a strategy one. You're feeding
+> the audience you already have, but not pulling new people in, and there's no
+> clear read on what to kill vs scale. That's exactly what I do — done-for-you
+> management with weekly tracking, so every post is a bet you actually learn
+> from. Want me to show you where I'd unlock the next leg of growth? 👀
+
 ## 5. Warm contact / partner (no pitch)
 *Signal: someone you already work with. Just tell them what you do + ask.*
 
