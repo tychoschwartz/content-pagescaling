@@ -5,14 +5,29 @@ Honest, concrete plan. No hype. The whole thing rests on one shift:
 
 ---
 
+## Where you are today (this is a strong base, not zero)
+
+You've already proven the model works for you:
+
+| Stream | Revenue | What it proves |
+|---|---|---|
+| Editing deal | ~$800 / mo | You can land and hold a recurring retainer |
+| Page management | ~$500 / mo | You can sell the exact service this plan scales |
+| **@multimillionaire_mind** (390K, your own) | asset | Flagship proof + a growth lever competitors don't have |
+| **Current recurring** | **~$1,300 / mo (~€1,200)** | The engine runs — it just needs volume |
+
+You are NOT starting from scratch. You're ~€1,200/mo in with proof you can close
+both editing AND management deals. To hit €5k you don't need a new skill — you
+need to **repeat what you've already done ~7–8 more times.**
+
 ## The diagnosis — why you're stuck
 
-1. **You've been prepping, not selling.** Assets built, prospects scouted — but
-   the money action (DMs → teardowns → clients) hasn't started at volume. Prep
-   feels like progress. It isn't.
+1. **You've proven you can close, but outreach isn't consistent or at volume.**
+   The deals you have came in — now the funnel has to stay full every day, not in
+   bursts. Prep and scouting feel like progress; only sending DMs moves revenue.
 2. **You're spreading capital buying accounts.** That's slow, capital-heavy, and
-   risky. The management business needs ~zero capital. You're funding the slow
-   engine while the fast one sits idle.
+   risky. The service needs ~zero capital. You're funding the slow engine while
+   the fast one sits idle.
 
 The cure is boring: 20 DMs a day, every weekday. That's the whole game.
 
@@ -35,8 +50,18 @@ Two ways to make money in this business:
 | €750 | 7 |
 | €1,000 | 5 |
 
-Recurring means once you land them, they stack. Land ~1 client/week and you're
-at €5k in ~2–3 months. It's front-loaded grind, then it compounds.
+**But you're not starting at €0 — you're at ~€1,200.** The gap to €5k is
+~€3,800/mo:
+
+| How you close the gap | Count |
+|---|---|
+| Management clients @ €500 | ~8 more |
+| Or a mix: 2 editing deals (~$800) + management @ €500 | ~2 + ~5 |
+| Or fewer premium pages @ €1,000 | ~4 more |
+
+Recurring means once you land them, they stack on top of your $1,300. Land ~1
+client/week and you're at €5k in ~2–3 months. Front-loaded grind, then it
+compounds. **You've done it twice already — this is just reps 3 through 10.**
 
 ---
 
@@ -68,17 +93,21 @@ The funnel only works if the top stays full. Never stop sending.
 
 ---
 
-## Your 400K account = your unfair advantage
+## @multimillionaire_mind (390K) = your unfair advantage
 
-Most people pitching page management don't run a big page themselves. You do.
+Most people pitching page management don't run a big page themselves. You own a
+390K motivation page that's doing well. Squeeze every drop out of it:
 
-1. **Verify it's LIVE** — apply the likes filter to your own page. If it's
-   engaged, it's gold. If it's soft, know that before you lean on it.
-2. **Use it as your storefront** — post your case studies there. It's proof and
-   credibility working for you 24/7.
-3. **Instant DM authority** — "I run a 400K page myself" beats any pitch.
-4. **Monetize it directly** — your own offer, affiliate, or promo = extra revenue
-   on top of the service.
+1. **Instant DM authority** — "I run @multimillionaire_mind, 390K in this exact
+   niche" beats any cold pitch. Lead with it.
+2. **Your storefront** — it's already a case study; keep it as living proof.
+3. **A growth lever for clients** — you can shout out / collab client pages from
+   your 390K to kickstart their growth. Competitors managing pages can't do that.
+   It's a real selling point AND a delivery weapon.
+4. **Monetize it directly** — promos, affiliate, or your own offer = extra
+   revenue on top of the retainers (income stream #4).
+5. **Verify it's LIVE** — you already know it engages; keep an eye on the rate as
+   you scale so it stays a strong proof asset.
 
 ---
 
