@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pagescaling · Content Planner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090b; --surface:#0f1216; --surface-2:#151920;
+  --hair:#22262e; --hair-soft:#171b21;
+  --ink:#eef2f7; --ink-soft:#8a97a6; --ink-dim:#5b6572;
+  --accent:#5cc6ff; --accent-deep:#2a9fe6;
+  --accent-dim:rgba(92,198,255,.14); --accent-glow:rgba(92,198,255,.45);
+  --live:#37d67a; --warn:#ffb454;
+  --display:'Fraunces',Georgia,serif;
+  --body:'Inter',-apple-system,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);color:var(--ink);font-family:var(--body);
+  min-height:100vh;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  position:relative;overflow-x:hidden;
+}
+/* fine blue grid ground + aurora, lifted from the deck */
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
+  background:
+    linear-gradient(rgba(92,198,255,.028) 1px,transparent 1px) 0 0/100% 46px,
+    linear-gradient(90deg,rgba(92,198,255,.028) 1px,transparent 1px) 0 0/46px 100%;
+  -webkit-mask-image:radial-gradient(circle at 50% -8%,#000,transparent 72%);
+          mask-image:radial-gradient(circle at 50% -8%,#000,transparent 72%);
+}
+body::after{
+  content:"";position:fixed;top:-26%;left:-14%;width:60%;height:90%;z-index:0;pointer-events:none;
+  background:radial-gradient(circle,rgba(92,198,255,.13),transparent 60%);filter:blur(70px);
+}
+.wrap{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:38px 40px 80px;}
+
+/* ---------- top bar ---------- */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+.brand{display:flex;align-items:baseline;gap:18px;}
+.logo{font-family:var(--display);font-style:italic;font-weight:600;font-size:34px;letter-spacing:-.03em;line-height:1;color:var(--ink);}
+.logo .dot{display:inline-block;width:.17em;height:.17em;border-radius:50%;background:var(--accent);margin-left:.04em;vertical-align:baseline;}
+.crumb{font-family:var(--mono);font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-dim);border-left:1px solid var(--hair);padding-left:18px;}
+.client{display:flex;align-items:center;gap:12px;}
+.client .avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--accent-deep),#7a3cff);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-style:italic;font-weight:600;font-size:18px;color:#04121e;flex:none;}
+.client .who{display:flex;flex-direction:column;line-height:1.25;}
+.client .who b{font-weight:600;font-size:15px;color:var(--ink);}
+.client .who span{font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--ink-soft);}
+
+/* ---------- title block ---------- */
+.head{margin-top:40px;display:flex;align-items:flex-end;justify-content:space-between;gap:28px;flex-wrap:wrap;}
+.eyebrow{display:inline-flex;align-items:center;gap:12px;font-family:var(--mono);font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--accent);font-weight:500;}
+.eyebrow::before{content:"";width:28px;height:1.5px;background:var(--accent);opacity:.6;}
+h1{font-family:var(--display);font-weight:300;font-size:46px;line-height:1.02;letter-spacing:-.028em;margin-top:16px;text-wrap:balance;}
+h1 b{font-weight:600;font-style:italic;}
+.monthnav{display:flex;align-items:center;gap:14px;}
+.monthnav .m{font-family:var(--display);font-style:italic;font-weight:400;font-size:22px;color:var(--ink);}
+.monthnav button{background:var(--surface);border:1px solid var(--hair);color:var(--ink-soft);width:34px;height:34px;border-radius:9px;cursor:pointer;font-size:15px;transition:.16s;}
+.monthnav button:hover{border-color:var(--accent);color:var(--accent);}
+.monthnav button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+/* ---------- stat strip ---------- */
+.stats{margin-top:34px;display:grid;grid-template-columns:repeat(5,1fr);gap:14px;}
+.stat{background:var(--surface);border:1px solid var(--hair);border-radius:14px;padding:20px 22px;position:relative;overflow:hidden;}
+.stat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--sc,var(--ink-dim));}
+.stat .k{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);}
+.stat .v{font-family:var(--display);font-weight:300;font-size:44px;line-height:1;margin-top:12px;color:var(--ink);font-variant-numeric:tabular-nums;}
+.stat .v small{font-size:15px;color:var(--ink-dim);font-family:var(--mono);letter-spacing:.04em;}
+
+/* ---------- view toggle + legend ---------- */
+.bar{margin-top:38px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+.toggle{display:inline-flex;background:var(--surface);border:1px solid var(--hair);border-radius:11px;padding:4px;}
+.toggle button{border:0;background:transparent;color:var(--ink-soft);font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding:9px 18px;border-radius:8px;cursor:pointer;transition:.16s;}
+.toggle button[aria-selected="true"]{background:var(--accent-dim);color:var(--accent);}
+.toggle button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--ink-soft);text-transform:uppercase;}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:7px;vertical-align:middle;}
+
+/* ---------- board ---------- */
+.board{margin-top:24px;display:grid;grid-auto-flow:column;grid-auto-columns:minmax(280px,1fr);gap:16px;overflow-x:auto;padding-bottom:14px;}
+.col{background:var(--surface);border:1px solid var(--hair-soft);border-radius:16px;padding:16px 14px;min-height:200px;display:flex;flex-direction:column;gap:12px;}
+.col > .colhead{display:flex;align-items:center;justify-content:space-between;padding:2px 4px 10px;border-bottom:1px solid var(--hair-soft);}
+.col .cname{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);}
+.col .cname i{width:9px;height:9px;border-radius:3px;background:var(--cc);}
+.col .count{font-family:var(--mono);font-size:12px;color:var(--ink-dim);background:var(--surface-2);border-radius:20px;padding:2px 9px;}
+
+.card{background:var(--surface-2);border:1px solid var(--hair);border-radius:12px;padding:14px 14px 13px;border-left:3px solid var(--cc);cursor:default;transition:.16s;}
+.card:hover{border-color:var(--hair);transform:translateY(-1px);box-shadow:0 12px 30px -18px rgba(0,0,0,.9);}
+.card .row1{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.fmt{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:3px 8px;border-radius:6px;border:1px solid var(--hair);color:var(--ink-soft);}
+.fmt.reel{color:var(--accent);border-color:rgba(92,198,255,.35);}
+.fmt.carousel{color:#c9a6ff;border-color:rgba(167,139,250,.35);}
+.fmt.story{color:var(--warn);border-color:rgba(255,180,84,.35);}
+.fmt.static{color:var(--ink-soft);}
+.date{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink-dim);font-variant-numeric:tabular-nums;}
+.hook{font-family:var(--display);font-weight:400;font-size:20px;line-height:1.18;letter-spacing:-.015em;color:var(--ink);margin-top:11px;text-wrap:pretty;}
+.meta{margin-top:13px;display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
+.chip{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;color:var(--ink-soft);background:var(--surface);border:1px solid var(--hair-soft);border-radius:20px;padding:4px 10px;}
+.chip.cta{color:var(--live);border-color:rgba(55,214,122,.3);}
+.chip.nocta{color:var(--ink-dim);}
+.chip svg{width:11px;height:11px;flex:none;}
+.chip.sound{max-width:100%;}
+.chip.sound span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:150px;}
+
+/* ---------- table view ---------- */
+.tablewrap{margin-top:24px;overflow-x:auto;border:1px solid var(--hair);border-radius:16px;background:var(--surface);}
+table{width:100%;border-collapse:collapse;min-width:820px;}
+thead th{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim);text-align:left;font-weight:500;padding:16px 18px;border-bottom:1px solid var(--hair);white-space:nowrap;}
+tbody td{padding:16px 18px;border-bottom:1px solid var(--hair-soft);font-size:14px;color:var(--ink-soft);vertical-align:top;}
+tbody tr:last-child td{border-bottom:0;}
+tbody tr:hover td{background:rgba(92,198,255,.03);}
+td.tdate{font-family:var(--mono);font-size:12.5px;color:var(--ink-dim);white-space:nowrap;font-variant-numeric:tabular-nums;}
+td.thook{color:var(--ink);font-family:var(--display);font-weight:400;font-size:16px;line-height:1.25;min-width:240px;}
+.status-pill{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--cc);white-space:nowrap;}
+.status-pill i{width:8px;height:8px;border-radius:50%;background:var(--cc);}
+.hidden{display:none;}
+
+/* ---------- footer ---------- */
+.foot{margin-top:56px;padding-top:26px;border-top:1px solid var(--hair);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.foot .handle{font-family:var(--mono);font-size:13px;letter-spacing:.08em;color:var(--ink-soft);}
+.foot .handle b{color:var(--ink);font-weight:500;}
+.foot .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-dim);}
+
+@media (max-width:880px){
+  .wrap{padding:26px 20px 60px;}
+  .stats{grid-template-columns:repeat(2,1fr);}
+  h1{font-size:36px;}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;}html{scroll-behavior:auto;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">
+      <span class="logo">ps<span class="dot"></span></span>
+      <span class="crumb">Content Planner</span>
+    </div>
+    <div class="client">
+      <span class="avatar">L</span>
+      <span class="who"><b>Lena Ford</b><span>@risewithlena</span></span>
+    </div>
+  </div>
+
+  <div class="head">
+    <div>
+      <span class="eyebrow">Shared workspace · live</span>
+      <h1>Every post, <b>one board</b>.</h1>
+    </div>
+    <div class="monthnav">
+      <button aria-label="Previous month">‹</button>
+      <span class="m">August 2026</span>
+      <button aria-label="Next month">›</button>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat" style="--sc:var(--ink-dim)"><div class="k">Planned</div><div class="v">14</div></div>
+    <div class="stat" style="--sc:var(--accent-deep)"><div class="k">In production</div><div class="v">5</div></div>
+    <div class="stat" style="--sc:var(--warn)"><div class="k">Needs approval</div><div class="v">2</div></div>
+    <div class="stat" style="--sc:var(--accent)"><div class="k">Scheduled</div><div class="v">3</div></div>
+    <div class="stat" style="--sc:var(--live)"><div class="k">Posted</div><div class="v">4 <small>/ 12 goal</small></div></div>
+  </div>
+
+  <div class="bar">
+    <div class="toggle" role="tablist" aria-label="View">
+      <button role="tab" aria-selected="true" data-view="board">Board</button>
+      <button role="tab" aria-selected="false" data-view="table">Table</button>
+    </div>
+    <div class="legend">
+      <span><i style="background:#5b6572"></i>Idea</span>
+      <span><i style="background:#8a97a6"></i>Scripting</span>
+      <span><i style="background:#2a9fe6"></i>Editing</span>
+      <span><i style="background:#ffb454"></i>Needs approval</span>
+      <span><i style="background:#5cc6ff"></i>Scheduled</span>
+      <span><i style="background:#37d67a"></i>Posted</span>
+    </div>
+  </div>
+
+  <!-- BOARD VIEW -->
+  <div class="board" id="board"></div>
+
+  <!-- TABLE VIEW -->
+  <div class="tablewrap hidden" id="table">
+    <table>
+      <thead>
+        <tr><th>Date</th><th>Format</th><th>Hook</th><th>Sound</th><th>CTA</th><th>Status</th></tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+
+  <div class="foot">
+    <span class="handle">Managed by <b>@pagescaling</b></span>
+    <span class="tag">The faceless content engine</span>
+  </div>
+
+</div>
+
+<script>
+/* ---- single source of truth: the client's content, one array ---- */
+const STATUS = {
+  idea:     {name:'Idea',          color:'#5b6572'},
+  script:   {name:'Scripting',     color:'#8a97a6'},
+  edit:     {name:'Editing',       color:'#2a9fe6'},
+  approval: {name:'Needs approval',color:'#ffb454'},
+  scheduled:{name:'Scheduled',     color:'#5cc6ff'},
+  posted:   {name:'Posted',        color:'#37d67a'},
+};
+const ORDER = ['idea','script','edit','approval','scheduled','posted'];
+
+const POSTS = [
+  {date:'Aug 04', fmt:'reel',     hook:'The 6am habit that quietly doubled my energy', sound:'Storytime — Aphex ambient', cta:true,  status:'posted'},
+  {date:'Aug 06', fmt:'carousel', hook:'5 lies the fitness industry sells you', sound:'—', cta:true,  status:'posted'},
+  {date:'Aug 08', fmt:'reel',     hook:'Stop chasing motivation. Build this instead.', sound:'Trending — “oh no oh no”', cta:false, status:'posted'},
+  {date:'Aug 09', fmt:'story',    hook:'Behind the scenes: my Sunday reset routine', sound:'Lo-fi calm loop', cta:false, status:'posted'},
+  {date:'Aug 11', fmt:'reel',     hook:'I tried waking at 5am for 30 days — here’s the truth', sound:'Trending — “Murder On The Dancefloor”', cta:true,  status:'scheduled'},
+  {date:'Aug 13', fmt:'carousel', hook:'The 3-line journal that rewired my mornings', sound:'—', cta:true,  status:'scheduled'},
+  {date:'Aug 15', fmt:'reel',     hook:'Why your “rest days” are making you weaker', sound:'Trending — “A Bar Song (Tipsy)”', cta:false, status:'scheduled'},
+  {date:'Aug 18', fmt:'reel',     hook:'The one boundary that changed every relationship I have', sound:'Emotional piano — rising', cta:true,  status:'approval'},
+  {date:'Aug 20', fmt:'carousel', hook:'How I plan a week in 12 minutes flat', sound:'—', cta:true,  status:'approval'},
+  {date:'Aug 22', fmt:'reel',     hook:'Nobody talks about the loneliness of leveling up', sound:'Cinematic swell — TBD', cta:false, status:'edit'},
+  {date:'Aug 25', fmt:'reel',     hook:'Read this before you quit in month two', sound:'Trending — spoken word beat', cta:true,  status:'edit'},
+  {date:'Aug 27', fmt:'story',    hook:'Q&A: the question I get asked most', sound:'—', cta:false, status:'script'},
+  {date:'Aug 29', fmt:'carousel', hook:'The 4 numbers I check every single morning', sound:'—', cta:true,  status:'script'},
+  {date:'Aug 31', fmt:'reel',     hook:'What I’d tell myself at the very start', sound:'Idea — find warm nostalgic audio', cta:false, status:'idea'},
+];
+
+const heart = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/></svg>';
+const note  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>';
+
+/* ---- board ---- */
+const board = document.getElementById('board');
+ORDER.forEach(key=>{
+  const s = STATUS[key];
+  const items = POSTS.filter(p=>p.status===key);
+  const col = document.createElement('div');
+  col.className='col'; col.style.setProperty('--cc',s.color);
+  col.innerHTML = `<div class="colhead"><span class="cname"><i></i>${s.name}</span><span class="count">${items.length}</span></div>`;
+  items.forEach(p=>{
+    const card = document.createElement('div');
+    card.className='card'; card.style.setProperty('--cc',s.color);
+    const soundChip = p.sound && p.sound!=='—'
+      ? `<span class="chip sound">${note}<span>${p.sound}</span></span>` : '';
+    const ctaChip = p.cta
+      ? `<span class="chip cta">${heart}CTA</span>`
+      : `<span class="chip nocta">No CTA</span>`;
+    card.innerHTML =
+      `<div class="row1"><span class="fmt ${p.fmt}">${p.fmt}</span><span class="date">${p.date}</span></div>
+       <div class="hook">${p.hook}</div>
+       <div class="meta">${ctaChip}${soundChip}</div>`;
+    col.appendChild(card);
+  });
+  board.appendChild(col);
+});
+
+/* ---- table ---- */
+const tbody = document.getElementById('tbody');
+POSTS.slice().sort((a,b)=>ORDER.indexOf(b.status)-ORDER.indexOf(a.status)).forEach(p=>{
+  const s = STATUS[p.status];
+  const tr = document.createElement('tr');
+  tr.innerHTML =
+    `<td class="tdate">${p.date}</td>
+     <td><span class="fmt ${p.fmt}">${p.fmt}</span></td>
+     <td class="thook">${p.hook}</td>
+     <td>${p.sound}</td>
+     <td>${p.cta?'<span class="chip cta" style="display:inline-flex">Yes</span>':'<span style="color:var(--ink-dim)">—</span>'}</td>
+     <td><span class="status-pill" style="--cc:${s.color}"><i></i>${s.name}</span></td>`;
+  tbody.appendChild(tr);
+});
+
+/* ---- view toggle ---- */
+const tabs = document.querySelectorAll('.toggle button');
+tabs.forEach(btn=>btn.addEventListener('click',()=>{
+  tabs.forEach(b=>b.setAttribute('aria-selected', b===btn));
+  const v = btn.dataset.view;
+  document.getElementById('board').classList.toggle('hidden', v!=='board');
+  document.getElementById('table').classList.toggle('hidden', v!=='table');
+}));
+</script>
+</body>
+</html>
