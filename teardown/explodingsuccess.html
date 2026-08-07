@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pagescaling · Teardown — @explodingsuccess</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090b; --surface:#0f1216; --surface-2:#151920;
+  --hair:#22262e; --hair-soft:#171b21;
+  --ink:#eef2f7; --ink-soft:#8a97a6; --ink-dim:#5b6572;
+  --accent:#5cc6ff; --accent-deep:#2a9fe6;
+  --accent-dim:rgba(92,198,255,.14); --accent-glow:rgba(92,198,255,.45);
+  --live:#37d67a; --warn:#ffb454; --bad:#ff6b6b;
+  --display:'Fraunces',Georgia,serif;
+  --body:'Inter',-apple-system,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.5;
+  min-height:100vh;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  position:relative;overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
+  background:
+    linear-gradient(rgba(92,198,255,.028) 1px,transparent 1px) 0 0/100% 46px,
+    linear-gradient(90deg,rgba(92,198,255,.028) 1px,transparent 1px) 0 0/46px 100%;
+  -webkit-mask-image:radial-gradient(circle at 50% -8%,#000,transparent 72%);
+          mask-image:radial-gradient(circle at 50% -8%,#000,transparent 72%);
+}
+body::after{
+  content:"";position:fixed;top:-24%;left:-12%;width:58%;height:80%;z-index:0;pointer-events:none;
+  background:radial-gradient(circle,rgba(92,198,255,.12),transparent 60%);filter:blur(70px);
+}
+.wrap{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:38px 40px 90px;}
+
+/* top bar */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+.brand{display:flex;align-items:baseline;gap:18px;}
+.logo{font-family:var(--display);font-style:italic;font-weight:600;font-size:32px;letter-spacing:-.03em;line-height:1;}
+.logo .dot{display:inline-block;width:.17em;height:.17em;border-radius:50%;background:var(--accent);margin-left:.04em;}
+.crumb{font-family:var(--mono);font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-dim);border-left:1px solid var(--hair);padding-left:18px;}
+.prepared{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--ink-soft);text-align:right;}
+.prepared b{color:var(--ink);font-weight:500;}
+
+/* hero */
+.hero{margin-top:52px;}
+.eyebrow{display:inline-flex;align-items:center;gap:12px;font-family:var(--mono);font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--accent);font-weight:500;}
+.eyebrow::before{content:"";width:28px;height:1.5px;background:var(--accent);opacity:.6;}
+.acct{margin-top:20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.acct .mark{width:52px;height:52px;border-radius:14px;background:radial-gradient(circle at 35% 30%,#2b2410,#0b0b0c);border:1px solid #3a2f12;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-style:italic;font-weight:600;font-size:24px;color:#e9c26b;flex:none;}
+.acct h1{font-family:var(--display);font-weight:300;font-size:40px;line-height:1;letter-spacing:-.03em;}
+.acct .handle{font-family:var(--mono);font-size:13px;color:var(--ink-soft);letter-spacing:.04em;margin-top:6px;display:block;}
+.thesis{margin-top:34px;font-family:var(--display);font-weight:300;font-size:38px;line-height:1.12;letter-spacing:-.028em;max-width:20ch;text-wrap:balance;}
+.thesis b{font-weight:600;font-style:italic;color:var(--warn);}
+
+/* section heads */
+.sec{margin-top:64px;}
+.sec-k{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:12px;}
+.sec-k::before{content:"";width:24px;height:1.5px;background:var(--accent);opacity:.6;}
+.sec-h{font-family:var(--display);font-weight:300;font-size:30px;line-height:1.1;letter-spacing:-.02em;margin-top:14px;}
+.sec-h b{font-weight:600;font-style:italic;}
+
+/* stat tiles */
+.stats{margin-top:26px;display:grid;grid-template-columns:repeat(5,1fr);gap:12px;}
+.stat{background:var(--surface);border:1px solid var(--hair);border-radius:13px;padding:18px 18px;position:relative;overflow:hidden;}
+.stat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--sc,var(--ink-dim));}
+.stat .k{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);}
+.stat .v{font-family:var(--display);font-weight:300;font-size:32px;line-height:1;margin-top:10px;font-variant-numeric:tabular-nums;}
+.stat .v.neg{color:var(--bad);} .stat .v.warnc{color:var(--warn);}
+.stat .sub{font-family:var(--mono);font-size:10px;color:var(--ink-dim);margin-top:6px;letter-spacing:.03em;}
+
+/* chart */
+.chartcard{margin-top:26px;background:var(--surface);border:1px solid var(--hair);border-radius:18px;padding:26px 26px 20px;}
+.chartcard .ct{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;}
+.chartcard .ct h3{font-family:var(--display);font-weight:400;font-size:20px;letter-spacing:-.01em;}
+.chartcard .ct .delta{font-family:var(--mono);font-size:13px;color:var(--bad);letter-spacing:.04em;}
+figure{margin-top:16px;position:relative;}
+svg{display:block;width:100%;height:auto;overflow:visible;}
+.axlbl{font-family:var(--mono);font-size:11px;fill:var(--ink-dim);letter-spacing:.02em;}
+.gridline{stroke:var(--hair-soft);stroke-width:1;}
+.tip{position:absolute;pointer-events:none;background:#04070a;border:1px solid var(--hair);border-radius:9px;padding:8px 11px;font-family:var(--mono);font-size:11px;color:var(--ink);opacity:0;transition:opacity .1s;white-space:nowrap;transform:translate(-50%,-115%);z-index:5;}
+.tip b{color:var(--warn);}
+.tip span{color:var(--ink-dim);}
+.chart-note{margin-top:14px;font-size:13px;color:var(--ink-soft);border-top:1px solid var(--hair-soft);padding-top:14px;}
+.chart-note b{color:var(--ink);font-weight:600;}
+
+/* diagnosis */
+.diag{margin-top:26px;display:flex;flex-direction:column;gap:12px;}
+.d{display:grid;grid-template-columns:44px 1fr;gap:18px;background:var(--surface);border:1px solid var(--hair);border-radius:14px;padding:20px 22px;}
+.d .n{font-family:var(--display);font-weight:300;font-size:34px;line-height:1;color:var(--bad);opacity:.8;}
+.d h4{font-family:var(--display);font-weight:500;font-size:20px;letter-spacing:-.01em;line-height:1.2;}
+.d p{margin-top:9px;color:var(--ink-soft);font-size:15px;line-height:1.55;max-width:62ch;}
+.d p b{color:var(--ink);font-weight:600;}
+
+/* fix rows */
+.fix{margin-top:26px;display:flex;flex-direction:column;gap:0;border:1px solid var(--hair);border-radius:16px;overflow:hidden;}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.fr > div{padding:20px 24px;}
+.fr .from{background:var(--surface);border-right:1px solid var(--hair);border-bottom:1px solid var(--hair-soft);}
+.fr .to{background:var(--surface-2);border-bottom:1px solid var(--hair-soft);}
+.fr:last-child .from,.fr:last-child .to{border-bottom:0;}
+.frlbl{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:9px;}
+.from .frlbl{color:var(--bad);} .to .frlbl{color:var(--live);}
+.fr .txt{font-size:15px;line-height:1.5;color:var(--ink-soft);}
+.fr .to .txt{color:var(--ink);}
+.fr .to .txt b{color:var(--accent);font-weight:600;}
+.frhead{display:grid;grid-template-columns:1fr 1fr;background:#0b0e12;}
+.frhead div{padding:12px 24px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-dim);}
+.frhead div:first-child{border-right:1px solid var(--hair);}
+
+/* projection */
+.proj{margin-top:26px;background:var(--surface);border:1px solid var(--hair);border-radius:18px;padding:30px 30px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:28px;}
+.proj .p{text-align:center;}
+.proj .plbl{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);}
+.proj .pv{font-family:var(--display);font-weight:300;font-size:52px;line-height:1;margin-top:12px;font-variant-numeric:tabular-nums;}
+.proj .pv.neg{color:var(--bad);} .proj .pv.pos{color:var(--live);}
+.proj .psub{font-family:var(--mono);font-size:11px;color:var(--ink-dim);margin-top:8px;}
+.proj .arrow{font-family:var(--display);font-size:40px;color:var(--accent);font-style:italic;}
+.disclaimer{margin-top:14px;font-family:var(--mono);font-size:11px;color:var(--ink-dim);letter-spacing:.02em;text-align:center;}
+
+/* cta */
+.cta{margin-top:56px;background:linear-gradient(180deg,var(--surface-2),var(--surface));border:1px solid var(--hair);border-radius:20px;padding:44px 40px;text-align:center;}
+.cta h2{font-family:var(--display);font-weight:300;font-size:34px;line-height:1.1;letter-spacing:-.02em;}
+.cta h2 b{font-weight:600;font-style:italic;color:var(--accent);}
+.cta p{margin-top:16px;color:var(--ink-soft);font-size:16px;max-width:52ch;margin-left:auto;margin-right:auto;}
+.pill{display:inline-flex;align-items:center;gap:12px;margin-top:28px;background:var(--accent);color:#04121e;font-family:var(--mono);font-weight:600;font-size:15px;letter-spacing:.05em;text-transform:uppercase;padding:16px 30px;border-radius:999px;text-decoration:none;box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 26px 60px -24px var(--accent-glow);transition:.16s;}
+.pill:hover{transform:translateY(-1px);}
+
+.foot{margin-top:56px;padding-top:26px;border-top:1px solid var(--hair);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.foot .handle{font-family:var(--mono);font-size:13px;letter-spacing:.08em;color:var(--ink-soft);}
+.foot .handle b{color:var(--ink);font-weight:500;}
+.foot .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-dim);}
+
+@media (max-width:860px){
+  .wrap{padding:26px 20px 70px;}
+  .stats{grid-template-columns:repeat(2,1fr);}
+  .acct h1{font-size:32px;} .thesis{font-size:30px;}
+  .fr,.frhead{grid-template-columns:1fr;}
+  .fr .from{border-right:0;}
+  .frhead div:first-child{border-right:0;}
+  .proj{grid-template-columns:1fr;gap:18px;} .proj .arrow{transform:rotate(90deg);}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;}html{scroll-behavior:auto;}}
+</style>
+</head>
+<body data-palette="#ffb454">
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand"><span class="logo">ps<span class="dot"></span></span><span class="crumb">Account Teardown</span></div>
+    <div class="prepared">Prepared by <b>@pagescaling</b><br>07 Aug 2026 · data: Socialblade</div>
+  </div>
+
+  <div class="hero">
+    <span class="eyebrow">Free audit</span>
+    <div class="acct">
+      <span class="mark">ES</span>
+      <div>
+        <h1>Exploding Success</h1>
+        <span class="handle">@explodingsuccess · 230,749 followers</span>
+      </div>
+    </div>
+    <p class="thesis">You spent years building a 230K audience — and right now it's <b>leaking every single day</b>.</p>
+  </div>
+
+  <!-- SNAPSHOT -->
+  <div class="sec">
+    <span class="sec-k">The snapshot</span>
+    <h2 class="sec-h">Big account, <b>wrong direction</b>.</h2>
+    <div class="stats">
+      <div class="stat" style="--sc:var(--ink-soft)"><div class="k">Followers</div><div class="v">230,749</div><div class="sub">the asset</div></div>
+      <div class="stat" style="--sc:var(--bad)"><div class="k">Net · 30 days</div><div class="v neg">−1,523</div><div class="sub">−914 in last 14d</div></div>
+      <div class="stat" style="--sc:var(--bad)"><div class="k">Daily average</div><div class="v neg">−51</div><div class="sub">every day negative</div></div>
+      <div class="stat" style="--sc:var(--warn)"><div class="k">Posts · 30 days</div><div class="v warnc">+11</div><div class="sub">posting hard</div></div>
+      <div class="stat" style="--sc:var(--bad)"><div class="k">Engagement rate</div><div class="v neg">0</div><div class="sub">SB rank: TBD</div></div>
+    </div>
+  </div>
+
+  <!-- CHART -->
+  <div class="sec">
+    <span class="sec-k">The leak</span>
+    <h2 class="sec-h">The line only goes <b>one way</b>.</h2>
+    <div class="chartcard">
+      <div class="ct">
+        <h3>Follower count · last 11 days</h3>
+        <span class="delta" id="delta"></span>
+      </div>
+      <figure>
+        <svg id="chart" viewBox="0 0 860 300" role="img" aria-label="Follower count declining from 231,391 on Jul 28 to 230,749 on Aug 7"></svg>
+        <div class="tip" id="tip"></div>
+      </figure>
+      <p class="chart-note">Eleven days, eleven steps down. A 230K page posting 10+ times a fortnight should be <b>flat or climbing</b> — this is the signature of content that no longer reaches, retains, or attracts.</p>
+    </div>
+  </div>
+
+  <!-- DIAGNOSIS -->
+  <div class="sec">
+    <span class="sec-k">What's going wrong</span>
+    <h2 class="sec-h">Five things, one root cause.</h2>
+    <div class="diag">
+      <div class="d"><div class="n">1</div><div>
+        <h4>The audience is leaving faster than it arrives</h4>
+        <p>Every single day in the last two weeks closed negative — an average of <b>−51/day, −1,523 a month</b>. The audience you paid (in years of effort) to build is draining out the bottom.</p>
+      </div></div>
+      <div class="d"><div class="n">2</div><div>
+        <h4>Engagement has flatlined</h4>
+        <p>230K followers, but Socialblade registers <b>no measurable engagement rate</b> and can't even assign a rank. When likes and comments go quiet, the algorithm stops trusting the account and quietly caps its reach — which is exactly what the follower graph shows.</p>
+      </div></div>
+      <div class="d"><div class="n">3</div><div>
+        <h4>The content is generic AI — indistinguishable from 10,000 other money pages</h4>
+        <p>AI-rendered mentors, a fake Buffett, recycled "billionaire habits" hooks. Nothing on the grid answers <b>"why <i>this</i> page?"</b> — so there's no reason to follow, stay, or share. Sameness is invisible to the algorithm.</p>
+      </div></div>
+      <div class="d"><div class="n">4</div><div>
+        <h4>Volume without a system</h4>
+        <p>1,510 posts and climbing, but every post is a one-off. <b>No recurring series, no CTA pulling people deeper, no retention loop.</b> Huge effort goes in and nothing compounds.</p>
+      </div></div>
+      <div class="d"><div class="n">5</div><div>
+        <h4>Static carousels in a Reels game</h4>
+        <p>The reach that replaces churn now comes from <b>Reels riding trending audio</b>. A feed of static AI carousels simply can't out-run the daily bleed.</p>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- FIX -->
+  <div class="sec">
+    <span class="sec-k">What we'd change</span>
+    <h2 class="sec-h">Same account. <b>Different engine.</b></h2>
+    <div class="fix">
+      <div class="frhead"><div>Today</div><div>Under Pagescaling</div></div>
+      <div class="fr"><div class="from"><div class="frlbl">Now</div><div class="txt">Recycled "billionaire" hooks seen everywhere</div></div><div class="to"><div class="frlbl">Fixed</div><div class="txt">Scroll-stopping <b>hooks</b> written for the first 3 seconds — the single highest-leverage change</div></div></div>
+      <div class="fr"><div class="from"><div class="frlbl">Now</div><div class="txt">Static AI carousels, flat reach</div></div><div class="to"><div class="frlbl">Fixed</div><div class="txt"><b>Reels + trending sounds</b> to reopen reach and pull in new followers daily</div></div></div>
+      <div class="fr"><div class="from"><div class="frlbl">Now</div><div class="txt">One-off posts, nothing returns</div></div><div class="to"><div class="frlbl">Fixed</div><div class="txt">A <b>retention loop</b> — recurring series + clear CTAs so followers come back and convert</div></div></div>
+      <div class="fr"><div class="from"><div class="frlbl">Now</div><div class="txt">Posting by gut, no plan</div></div><div class="to"><div class="frlbl">Fixed</div><div class="txt">A managed <b>content system</b> — everything planned in a shared board you can watch</div></div></div>
+      <div class="fr"><div class="from"><div class="frlbl">Now</div><div class="txt">No idea why the number drops</div></div><div class="to"><div class="frlbl">Fixed</div><div class="txt">A <b>monthly report</b> — so the line turns and you can see exactly why</div></div></div>
+    </div>
+  </div>
+
+  <!-- PROJECTION -->
+  <div class="sec">
+    <span class="sec-k">The swing</span>
+    <h2 class="sec-h">Turning the line around.</h2>
+    <div class="proj">
+      <div class="p"><div class="plbl">Current trajectory</div><div class="pv neg">−1,500<span style="font-size:20px">/mo</span></div><div class="psub">shrinking</div></div>
+      <div class="arrow">→</div>
+      <div class="p"><div class="plbl">Target after the fix</div><div class="pv pos">+4,500<span style="font-size:20px">/mo</span></div><div class="psub">growing</div></div>
+    </div>
+    <p class="disclaimer">Illustrative target for a 230K account moving from −51 to +150 net/day — a directional goal, not a guaranteed number. We promise the system and the work; growth is the outcome of it.</p>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <h2>You already have the audience. <b>Let's stop the leak.</b></h2>
+    <p>Thanks for replying — this is the account you're sitting on, and the fix is straightforward. Give me 15 minutes and I'll walk you through exactly what the first 30 days looks like.</p>
+    <a class="pill" href="#">Book the call →</a>
+  </div>
+
+  <div class="foot">
+    <span class="handle">Prepared by <b>@pagescaling</b></span>
+    <span class="tag">The faceless content engine</span>
+  </div>
+
+</div>
+
+<script>
+const DATA = [
+  {d:'Jul 28', v:231391},{d:'Jul 29', v:231344},{d:'Jul 30', v:231261},
+  {d:'Jul 31', v:231202},{d:'Aug 01', v:231154},{d:'Aug 02', v:231081},
+  {d:'Aug 03', v:231003},{d:'Aug 04', v:230909},{d:'Aug 05', v:230880},
+  {d:'Aug 06', v:230796},{d:'Aug 07', v:230749},
+];
+const svg = document.getElementById('chart');
+const NS='http://www.w3.org/2000/svg';
+const W=860,H=300, m={t:24,r:24,b:44,l:64};
+const iw=W-m.l-m.r, ih=H-m.t-m.b;
+const vals=DATA.map(p=>p.v);
+const lo=230700, hi=231450;                 // honest, padded, non-zero (change-over-time)
+const x=i=>m.l + (i/(DATA.length-1))*iw;
+const y=v=>m.t + (1-(v-lo)/(hi-lo))*ih;
+function el(n,a){const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);return e;}
+
+// gridlines + y labels
+[230800,231000,231200,231400].forEach(g=>{
+  svg.appendChild(el('line',{x1:m.l,x2:W-m.r,y1:y(g),y2:y(g),class:'gridline'}));
+  const t=el('text',{x:m.l-12,y:y(g)+4,class:'axlbl','text-anchor':'end'});
+  t.textContent=(g/1000).toFixed(1)+'K'; svg.appendChild(t);
+});
+// x labels (every other)
+DATA.forEach((p,i)=>{ if(i%2===0){const t=el('text',{x:x(i),y:H-16,class:'axlbl','text-anchor':'middle'});t.textContent=p.d;svg.appendChild(t);}});
+
+// gradient
+const defs=el('defs',{});
+defs.innerHTML='<linearGradient id="fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ffb454" stop-opacity="0.28"/><stop offset="100%" stop-color="#ffb454" stop-opacity="0"/></linearGradient>';
+svg.appendChild(defs);
+
+const line=DATA.map((p,i)=>`${x(i)},${y(p.v)}`).join(' ');
+svg.appendChild(el('polygon',{points:`${m.l},${y(lo)} ${line} ${W-m.r},${y(lo)}`,fill:'url(#fill)'}));
+svg.appendChild(el('polyline',{points:line,fill:'none',stroke:'#ffb454','stroke-width':2.5,'stroke-linejoin':'round','stroke-linecap':'round'}));
+
+// endpoint emphasis
+const last=DATA.length-1;
+svg.appendChild(el('circle',{cx:x(last),cy:y(DATA[last].v),r:5,fill:'#ffb454',stroke:'#0f1216','stroke-width':2}));
+
+// delta label
+document.getElementById('delta').textContent = `▼ ${(DATA[0].v-DATA[last].v).toLocaleString()} in 11 days`;
+
+// hover crosshair + tooltip
+const tip=document.getElementById('tip');
+const cross=el('line',{y1:m.t,y2:m.t+ih,stroke:'#ffb454','stroke-width':1,'stroke-dasharray':'3 3',opacity:0});
+const dot=el('circle',{r:4.5,fill:'#fff',stroke:'#ffb454','stroke-width':2,opacity:0});
+svg.appendChild(cross);svg.appendChild(dot);
+const hit=el('rect',{x:m.l,y:m.t,width:iw,height:ih,fill:'transparent'});svg.appendChild(hit);
+function move(ev){
+  const r=svg.getBoundingClientRect();
+  const px=(ev.clientX-r.left)/r.width*W;
+  let i=Math.round((px-m.l)/iw*(DATA.length-1));
+  i=Math.max(0,Math.min(DATA.length-1,i));
+  const p=DATA[i], cx=x(i), cy=y(p.v);
+  cross.setAttribute('x1',cx);cross.setAttribute('x2',cx);cross.setAttribute('opacity',1);
+  dot.setAttribute('cx',cx);dot.setAttribute('cy',cy);dot.setAttribute('opacity',1);
+  tip.style.opacity=1;
+  tip.style.left=(cx/W*r.width)+'px';
+  tip.style.top=(cy/H*r.height)+'px';
+  const chg=i>0?p.v-DATA[i-1].v:0;
+  tip.innerHTML=`<b>${p.v.toLocaleString()}</b> <span>${p.d}</span>${i>0?`<br><span>day:</span> ${chg>0?'+':''}${chg}`:''}`;
+}
+hit.addEventListener('mousemove',move);
+hit.addEventListener('mouseleave',()=>{tip.style.opacity=0;cross.setAttribute('opacity',0);dot.setAttribute('opacity',0);});
+</script>
+</body>
+</html>
