@@ -4,8 +4,9 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
-const IN = pathToFileURL(path.join(ROOT, 'teardown', 'explodingsuccess.html')).href;
-const OUT = path.join(ROOT, 'teardown', 'explodingsuccess.pdf');
+const name = process.argv[2] || 'explodingsuccess';   // pass a teardown slug, e.g. `node build/topdf.mjs entrepreneurvisionlab`
+const IN = pathToFileURL(path.join(ROOT, 'teardown', `${name}.html`)).href;
+const OUT = path.join(ROOT, 'teardown', `${name}.pdf`);
 
 const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
 const page = await browser.newPage({ viewport: { width: 1040, height: 1400 }, deviceScaleFactor: 2 });
