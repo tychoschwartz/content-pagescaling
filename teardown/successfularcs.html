@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pagescaling · Teardown — @successfularcs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090b; --surface:#0f1216; --surface-2:#151920;
+  --hair:#22262e; --hair-soft:#171b21;
+  --ink:#eef2f7; --ink-soft:#8a97a6; --ink-dim:#5b6572;
+  --accent:#5cc6ff; --accent-deep:#2a9fe6;
+  --accent-dim:rgba(92,198,255,.14); --accent-glow:rgba(92,198,255,.45);
+  --live:#37d67a; --warn:#ffb454; --bad:#ff6b6b;
+  --display:'Fraunces',Georgia,serif;
+  --body:'Inter',-apple-system,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.5;
+  min-height:100vh;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  position:relative;overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
+  background:
+    linear-gradient(rgba(92,198,255,.028) 1px,transparent 1px) 0 0/100% 46px,
+    linear-gradient(90deg,rgba(92,198,255,.028) 1px,transparent 1px) 0 0/46px 100%;
+  -webkit-mask-image:radial-gradient(circle at 50% -8%,#000,transparent 72%);
+          mask-image:radial-gradient(circle at 50% -8%,#000,transparent 72%);
+}
+body::after{
+  content:"";position:fixed;top:-24%;left:-12%;width:58%;height:80%;z-index:0;pointer-events:none;
+  background:radial-gradient(circle,rgba(92,198,255,.12),transparent 60%);filter:blur(70px);
+}
+.wrap{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:38px 40px 90px;}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+.brand{display:flex;align-items:baseline;gap:18px;}
+.logo{font-family:var(--display);font-style:italic;font-weight:600;font-size:32px;letter-spacing:-.03em;line-height:1;}
+.logo .dot{display:inline-block;width:.17em;height:.17em;border-radius:50%;background:var(--accent);margin-left:.04em;}
+.crumb{font-family:var(--mono);font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-dim);border-left:1px solid var(--hair);padding-left:18px;}
+.prepared{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--ink-soft);text-align:right;}
+.prepared b{color:var(--ink);font-weight:500;}
+
+.hero{margin-top:52px;}
+.eyebrow{display:inline-flex;align-items:center;gap:12px;font-family:var(--mono);font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--accent);font-weight:500;}
+.eyebrow::before{content:"";width:28px;height:1.5px;background:var(--accent);opacity:.6;}
+.acct{margin-top:20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.acct .mark{width:52px;height:52px;border-radius:50%;background:#000;border:1px solid #2c2c2c;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:600;font-size:18px;color:#f2f2f2;flex:none;letter-spacing:-.02em;}
+.acct h1{font-family:var(--display);font-weight:300;font-size:40px;line-height:1;letter-spacing:-.03em;}
+.acct .handle{font-family:var(--mono);font-size:13px;color:var(--ink-soft);letter-spacing:.04em;margin-top:6px;display:block;}
+.thesis{margin-top:34px;font-family:var(--display);font-weight:300;font-size:36px;line-height:1.16;letter-spacing:-.028em;max-width:24ch;text-wrap:balance;}
+.thesis b{font-weight:600;font-style:italic;color:var(--warn);}
+.thesis em{font-style:italic;color:var(--live);font-weight:400;}
+
+.sec{margin-top:64px;}
+.sec-k{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:12px;}
+.sec-k::before{content:"";width:24px;height:1.5px;background:var(--accent);opacity:.6;}
+.sec-h{font-family:var(--display);font-weight:300;font-size:30px;line-height:1.1;letter-spacing:-.02em;margin-top:14px;}
+.sec-h b{font-weight:600;font-style:italic;}
+
+.stats{margin-top:26px;display:grid;grid-template-columns:repeat(5,1fr);gap:12px;}
+.stat{background:var(--surface);border:1px solid var(--hair);border-radius:13px;padding:18px 18px;position:relative;overflow:hidden;}
+.stat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--sc,var(--ink-dim));}
+.stat .k{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);}
+.stat .v{font-family:var(--display);font-weight:300;font-size:31px;line-height:1;margin-top:10px;font-variant-numeric:tabular-nums;}
+.stat .v.neg{color:var(--bad);} .stat .v.warnc{color:var(--warn);} .stat .v.pos{color:var(--live);}
+.stat .sub{font-family:var(--mono);font-size:10px;color:var(--ink-dim);margin-top:6px;letter-spacing:.03em;}
+
+.chartcard{margin-top:26px;background:var(--surface);border:1px solid var(--hair);border-radius:18px;padding:26px 26px 20px;}
+.chartcard .ct{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;}
+.chartcard .ct h3{font-family:var(--display);font-weight:400;font-size:20px;letter-spacing:-.01em;}
+.chartcard .ct .delta{font-family:var(--mono);font-size:13px;color:var(--warn);letter-spacing:.04em;}
+figure{margin-top:16px;position:relative;}
+svg{display:block;width:100%;height:auto;overflow:visible;}
+.axlbl{font-family:var(--mono);font-size:11px;fill:var(--ink-dim);letter-spacing:.02em;}
+.gridline{stroke:var(--hair-soft);stroke-width:1;}
+.tip{position:absolute;pointer-events:none;background:#04070a;border:1px solid var(--hair);border-radius:9px;padding:8px 11px;font-family:var(--mono);font-size:11px;color:var(--ink);opacity:0;transition:opacity .1s;white-space:nowrap;transform:translate(-50%,-115%);z-index:5;}
+.tip b{color:var(--live);}
+.tip b.cool{color:var(--warn);}
+.tip span{color:var(--ink-dim);}
+.chart-note{margin-top:14px;font-size:13px;color:var(--ink-soft);border-top:1px solid var(--hair-soft);padding-top:14px;}
+.chart-note b{color:var(--ink);font-weight:600;}
+
+.diag{margin-top:26px;display:flex;flex-direction:column;gap:12px;}
+.d{display:grid;grid-template-columns:44px 1fr;gap:18px;background:var(--surface);border:1px solid var(--hair);border-radius:14px;padding:20px 22px;}
+.d .n{font-family:var(--display);font-weight:300;font-size:34px;line-height:1;color:var(--warn);opacity:.85;}
+.d.good .n{color:var(--live);}
+.d h4{font-family:var(--display);font-weight:500;font-size:20px;letter-spacing:-.01em;line-height:1.2;}
+.d p{margin-top:9px;color:var(--ink-soft);font-size:15px;line-height:1.55;max-width:62ch;}
+.d p b{color:var(--ink);font-weight:600;}
+
+.fix{margin-top:26px;display:flex;flex-direction:column;gap:0;border:1px solid var(--hair);border-radius:16px;overflow:hidden;}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.fr > div{padding:20px 24px;}
+.fr .from{background:var(--surface);border-right:1px solid var(--hair);border-bottom:1px solid var(--hair-soft);}
+.fr .to{background:var(--surface-2);border-bottom:1px solid var(--hair-soft);}
+.fr:last-child .from,.fr:last-child .to{border-bottom:0;}
+.frlbl{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:9px;}
+.from .frlbl{color:var(--warn);} .to .frlbl{color:var(--live);}
+.fr .txt{font-size:15px;line-height:1.5;color:var(--ink-soft);}
+.fr .to .txt{color:var(--ink);}
+.fr .to .txt b{color:var(--accent);font-weight:600;}
+.frhead{display:grid;grid-template-columns:1fr 1fr;background:#0b0e12;}
+.frhead div{padding:12px 24px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-dim);}
+.frhead div:first-child{border-right:1px solid var(--hair);}
+
+.proj{margin-top:26px;background:var(--surface);border:1px solid var(--hair);border-radius:18px;padding:30px 30px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:28px;}
+.proj .p{text-align:center;}
+.proj .plbl{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);}
+.proj .pv{font-family:var(--display);font-weight:300;font-size:46px;line-height:1.05;margin-top:12px;font-variant-numeric:tabular-nums;}
+.proj .pv.neg{color:var(--bad);} .proj .pv.pos{color:var(--live);}
+.proj .psub{font-family:var(--mono);font-size:11px;color:var(--ink-dim);margin-top:8px;}
+.proj .arrow{font-family:var(--display);font-size:40px;color:var(--accent);font-style:italic;}
+.disclaimer{margin-top:14px;font-family:var(--mono);font-size:11px;color:var(--ink-dim);letter-spacing:.02em;text-align:center;}
+
+.cta{margin-top:56px;background:linear-gradient(180deg,var(--surface-2),var(--surface));border:1px solid var(--hair);border-radius:20px;padding:44px 40px;text-align:center;}
+.cta h2{font-family:var(--display);font-weight:300;font-size:34px;line-height:1.1;letter-spacing:-.02em;}
+.cta h2 b{font-weight:600;font-style:italic;color:var(--accent);}
+.cta p{margin-top:16px;color:var(--ink-soft);font-size:16px;max-width:54ch;margin-left:auto;margin-right:auto;}
+.pill{display:inline-flex;align-items:center;gap:12px;margin-top:28px;background:var(--accent);color:#04121e;font-family:var(--mono);font-weight:600;font-size:15px;letter-spacing:.05em;text-transform:uppercase;padding:16px 30px;border-radius:999px;text-decoration:none;box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 26px 60px -24px var(--accent-glow);transition:.16s;}
+.pill:hover{transform:translateY(-1px);}
+
+.foot{margin-top:56px;padding-top:26px;border-top:1px solid var(--hair);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.foot .handle{font-family:var(--mono);font-size:13px;letter-spacing:.08em;color:var(--ink-soft);}
+.foot .handle b{color:var(--ink);font-weight:500;}
+.foot .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-dim);}
+
+@media (max-width:860px){
+  .wrap{padding:26px 20px 70px;}
+  .stats{grid-template-columns:repeat(2,1fr);}
+  .acct h1{font-size:32px;} .thesis{font-size:28px;}
+  .fr,.frhead{grid-template-columns:1fr;}
+  .fr .from{border-right:0;}
+  .frhead div:first-child{border-right:0;}
+  .proj{grid-template-columns:1fr;gap:18px;} .proj .arrow{transform:rotate(90deg);}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;}html{scroll-behavior:auto;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand"><span class="logo">ps<span class="dot"></span></span><span class="crumb">Account Teardown</span></div>
+    <div class="prepared">Prepared by <b>@pagescaling</b><br>13 Aug 2026 · data: Socialblade</div>
+  </div>
+
+  <div class="hero">
+    <span class="eyebrow">Free audit</span>
+    <div class="acct">
+      <span class="mark">SA</span>
+      <div>
+        <h1>Successful Arcs</h1>
+        <span class="handle">@successfularcs · 270,298 followers</span>
+      </div>
+    </div>
+    <p class="thesis"><em>270K followers, 7.7% engagement — elite.</em> But daily growth just fell from <b>+800 to +65</b>, and none of it is yours to keep.</p>
+  </div>
+
+  <!-- SNAPSHOT -->
+  <div class="sec">
+    <span class="sec-k">The snapshot</span>
+    <h2 class="sec-h">Elite — and quietly <b>cooling</b>.</h2>
+    <div class="stats">
+      <div class="stat" style="--sc:var(--ink-soft)"><div class="k">Followers</div><div class="v">270,298</div><div class="sub">huge</div></div>
+      <div class="stat" style="--sc:var(--live)"><div class="k">Engagement</div><div class="v pos">7.73%</div><div class="sub">~20.9K likes/post</div></div>
+      <div class="stat" style="--sc:var(--live)"><div class="k">Net · 30 days</div><div class="v pos">+10,147</div><div class="sub">elite growth</div></div>
+      <div class="stat" style="--sc:var(--warn)"><div class="k">Daily now</div><div class="v warnc">+65</div><div class="sub">was +799 · 12d ago</div></div>
+      <div class="stat" style="--sc:var(--bad)"><div class="k">Owned audience</div><div class="v neg">0</div><div class="sub">IG + YT both rented</div></div>
+    </div>
+  </div>
+
+  <!-- CHART -->
+  <div class="sec">
+    <span class="sec-k">The cooling</span>
+    <h2 class="sec-h">The growth curve just <b>turned down</b>.</h2>
+    <div class="chartcard">
+      <div class="ct">
+        <h3>Daily new followers · last 12 days</h3>
+        <span class="delta" id="delta"></span>
+      </div>
+      <figure>
+        <svg id="chart" viewBox="0 0 860 300" role="img" aria-label="Daily follower gains falling from about +800 to +65 over twelve days"></svg>
+        <div class="tip" id="tip"></div>
+      </figure>
+      <p class="chart-note">Still green every day — but the daily number has <b>dropped ~8×</b>, from +799 to +65, in under two weeks. Momentum this strong is worth protecting <i>now</i>, while the audience is still hot.</p>
+    </div>
+  </div>
+
+  <!-- DIAGNOSIS -->
+  <div class="sec">
+    <span class="sec-k">The honest read</span>
+    <h2 class="sec-h">Two gaps, both about what happens next.</h2>
+    <div class="diag">
+      <div class="d good"><div class="n">✓</div><div>
+        <h4>The reach and engagement are elite — keep them</h4>
+        <p>270K followers, <b>7.73% engagement, ~20,900 likes a post</b>. Story-driven Reels, sharp hooks. This is a top-tier attention machine — nothing here needs "fixing." The gaps are about protecting and owning it.</p>
+      </div></div>
+      <div class="d"><div class="n">1</div><div>
+        <h4>Growth is cooling fast</h4>
+        <p>Daily adds have fallen from <b>+799 to +65</b> in under two weeks — an ~8× drop. Still positive, but the curve has clearly turned. Aggregated-clip pages plateau quickly once the format fatigues; without fresh hooks the green days keep shrinking.</p>
+      </div></div>
+      <div class="d"><div class="n">2</div><div>
+        <h4>Everything is rented</h4>
+        <p>Instagram plus a YouTube link — but <b>no email or owned list</b>. Two algorithms own your entire audience; one change to either and the reach vanishes. Right now there's nothing you actually control.</p>
+      </div></div>
+      <div class="d"><div class="n">3</div><div>
+        <h4>Credited clips, no owned IP</h4>
+        <p>The content is other creators' footage — "Media: moreperfectunion," "LitecoinTA." Excellent curation, but no face, no product, no proprietary asset. <b>The moat is the editing, and editing can be copied.</b></p>
+      </div></div>
+      <div class="d"><div class="n">4</div><div>
+        <h4>Huge likes, thin conversation</h4>
+        <p>~20,900 likes but only ~39 comments a post. Passive reach is enormous; <b>community is shallow</b>. Comments and DMs are where loyalty and sales conversations live — and that layer is barely touched.</p>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- FIX -->
+  <div class="sec">
+    <span class="sec-k">What we'd change</span>
+    <h2 class="sec-h">Protect the momentum. <b>Then own it.</b></h2>
+    <div class="fix">
+      <div class="frhead"><div>Today</div><div>Under Pagescaling</div></div>
+      <div class="fr"><div class="from"><div class="frlbl">Now</div><div class="txt">Growth cooling, same format</div></div><div class="to"><div class="frlbl">Fixed</div><div class="txt">Fresh <b>hooks &amp; formats</b> to reignite the curve before it flatlines</div></div></div>
+      <div class="fr"><div class="from"><div class="frlbl">Missing</div><div class="txt">Audience rented from IG + YouTube</div></div><div class="to"><div class="frlbl">Added</div><div class="txt"><b>Email / DM capture</b> — an owned list that survives any algorithm change</div></div></div>
+      <div class="fr"><div class="from"><div class="frlbl">Missing</div><div class="txt">Credited clips, no product</div></div><div class="to"><div class="frlbl">Added</div><div class="txt">An <b>owned offer / product</b> so 270K of attention finally monetises on your terms</div></div></div>
+      <div class="fr"><div class="from"><div class="frlbl">Now</div><div class="txt">20.9K likes, ~39 comments</div></div><div class="to"><div class="frlbl">Deepened</div><div class="txt"><b>CTAs that spark comments &amp; DMs</b> — community and sales conversations</div></div></div>
+      <div class="fr"><div class="from"><div class="frlbl">Now</div><div class="txt">Elite content, made by hand</div></div><div class="to"><div class="frlbl">Kept</div><div class="txt">A <b>content system</b> that keeps the engine running — plus a monthly report</div></div></div>
+    </div>
+  </div>
+
+  <!-- PROJECTION -->
+  <div class="sec">
+    <span class="sec-k">The unlock</span>
+    <h2 class="sec-h">Turn rented reach into an asset.</h2>
+    <div class="proj">
+      <div class="p"><div class="plbl">Audience you own today</div><div class="pv neg">0</div><div class="psub">renting 270K from IG + YT</div></div>
+      <div class="arrow">→</div>
+      <div class="p"><div class="plbl">With a list + offer</div><div class="pv pos">Owned<br>&amp; monetised</div><div class="psub">on your terms</div></div>
+    </div>
+    <p class="disclaimer">The reach is elite and real; the gap is that none of it is owned or protected. A directional plan, not a guaranteed number — we promise the system and the build; the revenue is the outcome of it.</p>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <h2>You've built elite reach. <b>Let's protect it and own it.</b></h2>
+    <p>Your content is better than most of what we manage — this isn't about fixing it. It's about reigniting the growth that just started cooling, and turning 270K of rented attention into something you actually keep. 15 minutes and I'll show you how.</p>
+    <a class="pill" href="#">Book the call →</a>
+  </div>
+
+  <div class="foot">
+    <span class="handle">Prepared by <b>@pagescaling</b></span>
+    <span class="tag">The faceless content engine</span>
+  </div>
+
+</div>
+
+<script>
+const DATA = [
+  {d:'Aug 02', v:799},{d:'Aug 03', v:604},{d:'Aug 04', v:471},{d:'Aug 05', v:575},
+  {d:'Aug 06', v:531},{d:'Aug 07', v:498},{d:'Aug 08', v:432},{d:'Aug 09', v:170},
+  {d:'Aug 10', v:184},{d:'Aug 11', v:153},{d:'Aug 12', v:138},{d:'Aug 13', v:65},
+];
+const svg = document.getElementById('chart');
+const NS='http://www.w3.org/2000/svg';
+const W=860,H=300, m={t:24,r:24,b:44,l:52};
+const iw=W-m.l-m.r, ih=H-m.t-m.b;
+const hi=850, lo=0;
+const bw = iw/DATA.length*0.6;
+const cx=i=>m.l + (i+0.5)/DATA.length*iw;
+const y=v=>m.t + (1-(v-lo)/(hi-lo))*ih;
+function el(n,a){const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);return e;}
+
+[0,200,400,600,800].forEach(g=>{
+  svg.appendChild(el('line',{x1:m.l,x2:W-m.r,y1:y(g),y2:y(g),class:'gridline'}));
+  const t=el('text',{x:m.l-12,y:y(g)+4,class:'axlbl','text-anchor':'end'});
+  t.textContent='+'+g; svg.appendChild(t);
+});
+DATA.forEach((p,i)=>{
+  const x=cx(i)-bw/2, h=y(lo)-y(p.v);
+  const cool = p.v<250;
+  const bar=el('rect',{x,y:y(p.v),width:bw,height:h,rx:4,
+    fill: cool ? 'rgba(255,180,84,.9)' : 'rgba(55,214,122,.85)','data-i':i});
+  bar.style.transition='opacity .12s'; svg.appendChild(bar);
+  const t=el('text',{x:cx(i),y:H-16,class:'axlbl','text-anchor':'middle'});
+  t.textContent=p.d.replace('Aug ',''); svg.appendChild(t);
+});
+document.getElementById('delta').textContent = '▼ +799 → +65 per day';
+
+const tip=document.getElementById('tip');
+const bars=[...svg.querySelectorAll('rect')];
+bars.forEach(b=>{
+  b.addEventListener('mouseenter',()=>{
+    const i=+b.getAttribute('data-i'), p=DATA[i];
+    bars.forEach(o=>o.style.opacity=o===b?1:.4);
+    const r=svg.getBoundingClientRect();
+    tip.style.opacity=1;
+    tip.style.left=(cx(i)/W*r.width)+'px';
+    tip.style.top=(y(p.v)/H*r.height)+'px';
+    tip.innerHTML=`<b class="${p.v<250?'cool':''}">+${p.v}</b> <span>${p.d}</span>`;
+  });
+});
+svg.addEventListener('mouseleave',()=>{tip.style.opacity=0;bars.forEach(o=>o.style.opacity=1);});
+</script>
+</body>
+</html>
